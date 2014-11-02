@@ -13,17 +13,11 @@ class Solution{
     int head=0;
     int last=num.size()-1;
 
-    while (head<last-1){
+    while (head<last-1 && num[head]>num[last]){
       int mid=(head+last)/2;
 
-      if (num[head]<num[mid] && num[mid]<num[last]){
-        return num[head];
-      } else if (num[head]<num[mid] && num[mid]>num[last]){
-        if (num[head]<num[last]){
-          last=mid;
-        } else{
-          head=mid;
-        }
+      if (num[mid]>num[last]){
+        head=mid;
       } else{
         last=mid;
       }
@@ -42,7 +36,7 @@ int main(){
   vector<int> v;
   srand(time(NULL));
 
-  for (int i=0; i<100; ++i){
+  for (int i=0; i<10000; ++i){
     int max=rand()%MAX+1;
     int pivot=rand()%max+1;
 
