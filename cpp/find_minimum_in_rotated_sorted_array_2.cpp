@@ -1,9 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include <vector>
-
-#define MAX 10000
 
 using namespace std;
 
@@ -38,33 +34,14 @@ class Solution{
 };
 
 int main(){
-  Solution s;
-  vector<int> v;
-  srand(time(NULL));
-
-  for (int i=0; i<100; ++i){
-    int max=rand()%MAX+1;
-    int pivot=rand()%max+1;
-
-    v.clear();
-    for (int j=pivot; j<=max; ++j){
-      v.push_back(j);
-    }
-    for (int j=1; j<=pivot-1; ++j){
-      v.push_back(j);
-    }
-
-    int min=s.findMin(v);
-    if (min!=1){
-      printf("error, %d\n", min);
-      for (int j=0; j<max; ++j){
-        printf("%d ", v[j]);
-      }
-      printf("\n");
-      return 0;
-    }
+  int arr[8]={4, 5, 6, 7, 0, 1, 2, 3};
+  vector<int> v(8);
+  for (int i=0; i<8; ++i){
+    v.push_back(arr[i]);
   }
 
-  printf("ok\n");
+  Solution s;
+  printf("%d\n", s.findMin(v));
+
   return 0;
 }
