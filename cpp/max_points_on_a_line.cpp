@@ -63,7 +63,9 @@ class Solution {
 };
 
 int main(){
-  Point p[9]={Point(84, 250), Point(0, 0), Point(1, 0), Point(0, -70), Point(0, -70), Point(1, -1), Point(21, 10), Point(42, 90), Point(-42, -230)};
+  Point p[9]={Point(84, 250), Point(0, 0), Point(1, 0), Point(0, -70),
+    Point(0, -70), Point(1, -1), Point(21, 10), Point(42, 90),
+    Point(-42, -230)};
   vector<Point> v;
   for (int i=0; i<9; ++i){
     v.push_back(p[i]);
