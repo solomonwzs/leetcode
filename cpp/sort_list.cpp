@@ -1,13 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include "utils.h"
 
 using namespace std;
 
-struct ListNode{
-  int val;
-  ListNode *next;
-  ListNode(int x): val(x), next(NULL) {}
-};
 
 class Solution{
  public:
@@ -54,29 +49,15 @@ class Solution{
 };
 
 int main(int argc, char **argv){
-  ListNode *head=NULL, *p=NULL;
-  if (argc>1){
-    for (int i=1; i<argc; ++i){
-      int j=atoi(argv[i]);
-      if (head==NULL){
-        head=new ListNode(j);
-        p=head;
-      } else{
-        p->next=new ListNode(j);
-        p=p->next;
-      }
-    }
-  }
+  ListNode *head=NULL;
+  ListNode **c=&head;
+
+  build_link_list_from_argv(c, argc, argv);
 
   Solution s;
   ListNode *q=s.sortList(head);
 
-  while (q){
-    p=q;
-    q=q->next;
-    printf("%d\n", p->val);
-    delete p;
-  }
+  delete_link_list(q);
 
   return 0;
 }
