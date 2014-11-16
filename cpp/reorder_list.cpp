@@ -25,9 +25,8 @@ class Solution{
 
 int main(int argc, char **argv){
   ListNode *head=NULL;
-  ListNode **c=&head;
 
-  build_link_list_from_argv(c, argc, argv);
+  build_link_list_from_argv(head, argc, argv);
   delete_link_list(head);
 
   return 0;

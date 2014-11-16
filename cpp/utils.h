@@ -9,11 +9,13 @@ struct ListNode{
   ListNode(int x):val(x), next(NULL){}
 };
 
-#define build_link_list_from_argv(_c, _argc, _argv)\
-    for (typeof(_argc) __i=1; __i<(_argc); ++__i){\
-      *_c=new ListNode(atoi((_argv)[__i]));\
-      _c=&((*_c)->next);\
-    }
+#define build_link_list_from_argv(_head, _argc, _argv) do{\
+  typeof(_head) *__c=&_head;\
+  for (typeof(_argc) __i=1; __i<(_argc); ++__i){\
+    *__c=new ListNode(atoi((_argv)[__i]));\
+    __c=&((*__c)->next);\
+  }\
+} while(0)
 
 #define delete_link_list(_head)\
     while (_head){\
