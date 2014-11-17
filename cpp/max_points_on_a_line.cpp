@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 struct Point {
   int x;
   int y;
@@ -14,7 +15,6 @@ struct Point {
 
 class Solution {
 #define MAX 2147483647
-
  public:
   int maxPoints(vector<Point> &points){
     if (points.size()==1){
@@ -61,6 +61,7 @@ class Solution {
     return max_points;
   }
 };
+
 
 int main(){
   Point p[9]={Point(84, 250), Point(0, 0), Point(1, 0), Point(0, -70),

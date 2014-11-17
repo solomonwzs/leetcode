@@ -12,10 +12,15 @@ struct ListNode{
 #define build_link_list_from_argv(_head, _argc, _argv) do{\
   typeof(_head) *__c=&_head;\
   for (typeof(_argc) __i=1; __i<(_argc); ++__i){\
-    *__c=new ListNode(atoi((_argv)[__i]));\
+    *__c=new (typeof *_head)(atoi((_argv)[__i]));\
     __c=&((*__c)->next);\
   }\
 } while(0)
+
+#define print_link_list(_head) \
+    for (typeof(_head) __p=_head; __p; __p=__p->next){\
+      printf("%d\n", __p->val);\
+    }
 
 #define delete_link_list(_head)\
     while (_head){\

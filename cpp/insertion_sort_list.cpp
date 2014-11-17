@@ -10,6 +10,7 @@ struct ListNode {
     ListNode(int x):val(x), next(NULL){}
 };
 
+
 class Solution {
  public:
   ListNode *insertionSortList(ListNode *head){
@@ -41,6 +42,7 @@ class Solution {
     return new_head;
   }
 };
+
 
 int main(int argc, char **argv){
   ListNode *head=NULL, *p=NULL;

@@ -22,6 +22,7 @@ struct Node{
   Node(int i, int j):key(i), value(j), next(NULL), prev(NULL){}
 };
 
+
 class LRUCache{
  private:
   int capacity;
@@ -132,6 +133,7 @@ class LRUCache{
     printf("\n");
   }
 };
+
 
 int main(){
   LRUCache l(2);

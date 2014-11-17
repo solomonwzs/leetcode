@@ -2,6 +2,7 @@
 
 using namespace std;
 
+
 class Solution {
  public:
   int maxProduct(int A[], int n){
@@ -33,6 +34,7 @@ class Solution {
     return max;
   }
 };
+
 
 int main(){
   Solution s;

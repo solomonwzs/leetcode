@@ -6,6 +6,7 @@
 
 using namespace std;
 
+
 class Solution {
  public:
   void reverseWords(string &s){
@@ -45,6 +46,7 @@ class Solution {
     }
   }
 };
+
 
 int main(){
   Solution s;
