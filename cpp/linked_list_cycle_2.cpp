@@ -6,8 +6,8 @@ using namespace std;
 
 class Solution{
  public:
-  bool hasCycle(ListNode *head){
-    if (!head) return false;
+  ListNode *detectCycle(ListNode *head){
+    if (!head) return NULL;
 
     ListNode *p=head;
     ListNode *q=p;
@@ -17,13 +17,20 @@ class Solution{
       if (q->next){
         q=q->next->next;
       } else{
-        return false;
+        return NULL;
       }
 
-      if (p==q) return true;
+      if (p==q){
+        p=head;
+        while (p!=q){
+          p=p->next;
+          q=q->next;
+        }
+        return p;
+      };
     } while(p && q);
 
-    return false;
+    return NULL;
   }
 };
 
@@ -45,5 +52,5 @@ int main(){
   arr[LEN-1].next=arr+2;
   //arr[1].next=NULL;
 
-  printf("%d\n", s.hasCycle(arr));
+  printf("%d\n", s.detectCycle(arr)->val);
 }
