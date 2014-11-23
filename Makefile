@@ -3,7 +3,7 @@
 .SUFFIXES: 	.cpp
 
 CC 			=g++
-CFLAGS 		=-Wall -g -c -std=c++11
+CFLAGS 		=-Wall -g -c -std=gnu++11
 
 SOURCES		=$(wildcard ./cpp/*.cpp)
 OBJECTS 	=$(SOURCES:%.cpp=%.o)
