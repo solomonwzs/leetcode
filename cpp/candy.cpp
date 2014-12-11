@@ -1,20 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <vector>
+#include "utils.h"
 
 using namespace std;
 
 
-#define LOWEST 0
+#define LOWEST    0
 #define HEIGHTEST 1
-#define MIN 1<<(sizeof(int)*8-1)
 
 struct point{
-  int rating;
-  int num;
-};
-
-struct m_point{
   unsigned idx;
   int height;
 };
@@ -22,145 +15,85 @@ struct m_point{
 class Solution {
  public:
   int candy(vector<int> &ratings) {
-    vector<point> r;
-    point p;
-    p.rating=ratings[0];
-    p.num=1;
-    for (unsigned i=1; i<ratings.size(); ++i){
-      if (ratings[i]==p.rating){
-        ++p.num;
-      } else{
-        r.push_back(p);
-        p.rating=ratings[i];
-        p.num=1;
-      }
-    }
-    r.push_back(p);
-
-    if (r.size()==1){
-      return r[0].num;
-    }
-
-    vector<point> sr;
-    if (r[0].num>1 && r[0].rating>r[1].rating){
-      p.rating=MIN;
-      p.num=r[0].num-1;
-      sr.push_back(p);
-
-      r[0].num=1;
-    }
-    sr.push_back(r[0]);
-    for (unsigned i=1; i<r.size()-1; ++i){
-      int num=r[i].num;
-      if (num>2
-          && ((r[i-1].rating<r[i].rating && r[i].rating<r[i+1].rating)
-              || (r[i-1].rating>r[i].rating && r[i].rating>r[i+1].rating))){
-        p.rating=MIN;
-        p.num=r[i].num-2;
-        r[i].num=1;
-        sr.push_back(r[i]);
-        sr.push_back(p);
-        sr.push_back(r[i]);
-      } else if (num>1 && r[i-1].rating<r[i].rating
-                 && r[i].rating>r[i+1].rating){
-        p.rating=r[i-1].rating+1;
-        p.num=1;
-        sr.push_back(p);
-
-        if (num>2){
-          p.rating=MIN;
-          p.num=num-2;
-          sr.push_back(p);
-        }
-
-        p.rating=r[i+1].rating+1;
-        p.num=1;
-        sr.push_back(p);
-      } else{
-        sr.push_back(r[i]);
-      }
-    }
-    if (r[r.size()-1].num>1 && r[r.size()-1].rating>r[r.size()-2].rating){
-      p.rating=r[r.size()-1].rating;
-      p.num=1;
-      sr.push_back(p);
-
-      p.rating=MIN;
-      p.num=r[r.size()-1].num-1;
-      sr.push_back(p);
-    } else{
-      sr.push_back(r[r.size()-1]);
-    }
-
-    for (unsigned i=0; i<sr.size(); ++i){
-      printf("[%d %d]\n", sr[i].rating, sr[i].num);
-    }
-
-    unsigned len=r.size();
-    if (len==1){
-      return r[0].num;
-    }
-
-    vector<m_point> mv;
-    m_point m;
-    m.idx=0;
-    m.height=r[0].rating>r[1].rating?HEIGHTEST:LOWEST;
-    mv.push_back(m);
-    for (unsigned i=1; i<len-1; ++i){
-      if (r[i-1].rating>r[i].rating && r[i].rating<r[i+1].rating){
-        m.idx=i;
-        m.height=LOWEST;
-        mv.push_back(m);
-      } else if (r[i-1].rating<r[i].rating && r[i].rating>r[i+1].rating){
-        m.idx=i;
-        m.height=HEIGHTEST;
-        mv.push_back(m);
-      }
-    }
-    m.idx=len-1;
-    m.height=r[len-1].rating>r[len-2].rating?HEIGHTEST:LOWEST;
-    mv.push_back(m);
-
-    for (unsigned i=0; i<mv.size(); ++i){
-      printf("<%d %d>\n", mv[i].idx, mv[i].height);
+    if (ratings.size()==1){
+      return 1;
     }
 
     int sum=0;
-    int h;
-    int prev_h=0;
-    for (unsigned i=1; i<mv.size(); ++i){
-      m_point a=mv[i-1];
-      m_point b=mv[i];
-
-      if (a.height==LOWEST){
-        h=1;
-        for (unsigned j=a.idx; j<b.idx; ++j){
-          sum+=(r[j].num>2?h*2+r[j].num-2:h*r[j].num);
-          ++h;
-        }
-        prev_h=h;
+    unsigned left=0;
+    unsigned right=1;
+    while (right<ratings.size()-1){
+      if (ratings[right]!=ratings[right-1]){
+        ++right;
       } else{
-        h=2;
-        for (unsigned j=b.idx-1; j>a.idx; --j){
-          sum+=(r[j].num>2?h*2+r[j].num-2:h*r[j].num);
-          ++h;
-        }
+        sum+=this->candy0(ratings, left, right-1);
 
-        int max_h=prev_h>h?prev_h:h;
-        if (i==1){
-          sum+=max_h+r[a.idx].num-1;
-        } else{
-          sum+=(r[a.idx].num>2?h*2+r[a.idx].num-2:h*r[a.idx].num);
+        left=right;
+        while (left+1<ratings.size()-1 && ratings[left]==ratings[left+1]){
+          ++sum;
+          ++left;
         }
+        right=left+1;
       }
-
-      printf("%d\n", sum);
     }
-    m_point last=mv[mv.size()-1];
-    if (last.height==HEIGHTEST){
-      sum+=(r[last.idx].num>1?h+r[last.idx].num-1:h);
+    sum+=this->candy0(ratings, left, right);
+    return sum;
+  }
+
+ private:
+  int candy0(vector<int> &ratings, unsigned left, unsigned right){
+    if (left==right){
+      return 1;
+    }
+
+    if (right-left==1){
+      return ratings[left]==ratings[right]?2:3;
+    }
+
+    vector<point> vp;
+    point p;
+    p.idx=left;
+    p.height=ratings[left]>ratings[left+1]?HEIGHTEST:LOWEST;
+    vp.push_back(p);
+    for (unsigned i=left+1; i<right; ++i){
+      if (ratings[i-1]<ratings[i] && ratings[i]>ratings[i+1]){
+        p.idx=i;
+        p.height=HEIGHTEST;
+        vp.push_back(p);
+      } else if (ratings[i-1]>ratings[i] && ratings[i]<ratings[i+1]){
+        p.idx=i;
+        p.height=LOWEST;
+        vp.push_back(p);
+      }
+    }
+    p.idx=right;
+    p.height=ratings[right]>ratings[right-1]?HEIGHTEST:LOWEST;
+    vp.push_back(p);
+
+    int sum=0;
+    int prev_len=0;
+    for (unsigned i=1; i<vp.size(); ++i){
+      if (vp[i-1].height==HEIGHTEST){
+        int len=vp[i].idx-vp[i-1].idx;
+        sum+=this->sum_len(len)-1+(prev_len>len?prev_len+1:len+1);
+      } else{
+        prev_len=vp[i].idx-vp[i-1].idx;
+        sum+=this->sum_len(prev_len);
+      }
+    }
+    if (vp[vp.size()-1].height==HEIGHTEST){
+      sum+=prev_len+1;
     } else{
-      sum+=r[last.idx].num;
+      ++sum;
+    }
+
+    return sum;
+  }
+
+  int sum_len(int len){
+    int sum=0;
+    for (int i=1; i<=len; ++i){
+      sum+=i;
     }
     return sum;
   }
@@ -174,7 +107,7 @@ int main(int argc, char **argv){
   }
 
   Solution s;
-  printf("%d\n", s.candy(v));
+  debug_log("%d\n", s.candy(v));
 
   return 0;
 }

@@ -1,6 +1,7 @@
 #ifndef __LEETCODE_CPP_UTILS__
 #define __LEETCODE_CPP_UTILS__
 
+#include <stdio.h>
 #include <stdlib.h>
 
 struct ListNode{
@@ -8,6 +9,9 @@ struct ListNode{
   ListNode *next;
   ListNode(int x):val(x), next(NULL){}
 };
+
+#define debug_log(_fmt_, ...) \
+    printf("\033[0;33m[%s:%d]\033[0m " _fmt_, __FILE__, __LINE__, ## __VA_ARGS__)
 
 #define build_link_list_from_argv(_head, _argc, _argv) do{\
   typeof(_head) *__c=&_head;\
