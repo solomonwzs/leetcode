@@ -54,6 +54,10 @@ static inline void clear_map(map<int, UndirectedGraphNode *> &m){
 class Solution{
  public:
   UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node){
+    if (node==NULL){
+      return NULL;
+    }
+
     map<int, UndirectedGraphNode *> m;
     vector<UndirectedGraphNode *> v;
     map_insert(m, node->label, node);
@@ -63,11 +67,10 @@ class Solution{
     map<int, UndirectedGraphNode *> cmap;
     map_insert(cmap, cnode->label, cnode);
 
-    for (vector<UndirectedGraphNode *>::iterator  it=v.begin(); it!=v.end();
-         ++it){
+    for (unsigned i=0; i<v.size(); ++i){
       UndirectedGraphNode *cn;
-      get_ug_node(cmap, (*it)->label, &cn);
-      vector<UndirectedGraphNode *>neighbors=(*it)->neighbors;
+      get_ug_node(cmap, v[i]->label, &cn);
+      vector<UndirectedGraphNode *>neighbors=v[i]->neighbors;
 
       for (vector<UndirectedGraphNode *>::iterator n=neighbors.begin();
            n!=neighbors.end(); ++n){
@@ -107,10 +110,22 @@ int main(int argc, char **argv){
 
   Solution s;
   UndirectedGraphNode *cnode=s.cloneGraph(m.begin()->second);
+
   map<int, UndirectedGraphNode *> cmap;
   map_insert(cmap, cnode->label, cnode);
   vector<UndirectedGraphNode *> cv;
   cv.push_back(cnode);
+  for (unsigned i=0; i<cv.size(); ++i){
+    vector<UndirectedGraphNode *> neighbors=cv[i]->neighbors;
+    for (vector<UndirectedGraphNode *>::iterator it=neighbors.begin();
+         it!=neighbors.end(); ++it){
+      auto n=cmap.find((*it)->label);
+      if (n==cmap.end()){
+        map_insert(cmap, (*it)->label, *it);
+        cv.push_back(*it);
+      }
+    }
+  }
 
   print_map(cmap);
 
