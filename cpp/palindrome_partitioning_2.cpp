@@ -7,29 +7,12 @@ using namespace std;
 
 class Solution {
  public:
-  int minCut(string s0){
-    int len0=s0.size();
-    if (len0==0){
+  int minCut(string s){
+    int len=s.size();
+    if (len==0){
       return 0;
     }
 
-    string s="";
-    int left=0;
-    while (left<len0){
-      int right=left+1;
-      while (right<len0 && s0[left]==s0[right]){
-        ++right;
-      }
-
-      int l=right-left>=3?3:right-left;
-      for (int i=0; i<l; ++i){
-        s.push_back(s0[left]);
-      }
-      left=right;
-    }
-    //debug_log("%s\n", s.c_str());
-
-    int len=s.size();
     vector< vector<int> > v(len);
     for (int i=0; i<len; ++i){
       for (int j=i; j<len; ++j){
@@ -55,9 +38,6 @@ class Solution {
       }
     }
 
-    if (r[len]==0 && !this->is_palindrome(s0)){
-      return 1;
-    }
     return r[len];
   }
 
