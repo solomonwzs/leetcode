@@ -9,20 +9,12 @@ class Solution {
  public:
   vector< vector<string> > partition(string s){
     vector< vector<string> > r;
-    unsigned len=s.size();
+    int len=s.size();
     if (len==0){
       return r;
     }
 
-    vector< vector<unsigned> > v(len+1);
-    for (int i=len-1; i>=0; --i){
-      for (unsigned j=i+1; j<len+1; ++j){
-        string sub=s.substr(i, j-i);
-        if (this->is_palindrome(sub)){
-          v[i].push_back(j);
-        }
-      }
-    }
+    vector< vector<int> > v=this->gen_jump_list(s);
 
     vector<string> vs;
     this->gen(s, r, vs, v, 0);
@@ -31,9 +23,37 @@ class Solution {
   }
 
  private:
+  vector< vector<int> > gen_jump_list(string s){
+    int len=s.size();
+
+    vector< vector<int> > v(len);
+    for (int left=0; left<len; ++left){
+      int right=left;
+      while (s[left]==s[right] && right<len){
+        v[left].push_back(right++);
+      }
+
+      int diff_pos=right;
+      int same_len=right-left;
+      while (right<len){
+        if (s[right]==s[left]){
+          if (right-diff_pos==same_len
+              && this->is_palindrome(s.substr(left, right-left+1))){
+            v[left].push_back(right);
+          }
+        } else{
+          diff_pos=right;
+        }
+        ++right;
+      }
+    }
+
+    return v;
+  }
+
   int is_palindrome(string s){
-    unsigned len=s.size();
-    for (unsigned i=0; i<len/2; ++i){
+    int len=s.size();
+    for (int i=0; i<len/2; ++i){
       if (s[i]!=s[len-i-1]){
         return 0;
       }
@@ -42,14 +62,14 @@ class Solution {
   }
 
   void gen(string &s, vector< vector<string> > &r,  vector<string> &vs,
-           vector< vector<unsigned> > &v, unsigned idx){
-    if (idx==s.size()){
+           vector< vector<int> > &v, int idx){
+    if (idx==(int)s.size()){
       r.push_back(vs);
     } else{
-      for (unsigned i=0; i<v[idx].size(); ++i){
-        string sub=s.substr(idx, v[idx][i]-idx);
+      for (int i=0; i<(int)v[idx].size(); ++i){
+        string sub=s.substr(idx, v[idx][i]-idx+1);
         vs.push_back(sub);
-        this->gen(s, r, vs, v, v[idx][i]);
+        this->gen(s, r, vs, v, v[idx][i]+1);
         vs.pop_back();
       }
     }
