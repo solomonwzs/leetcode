@@ -14,12 +14,24 @@ class Solution {
     }
 
     vector< vector<int> > v(len);
-    for (int i=0; i<len; ++i){
-      for (int j=i; j<len; ++j){
-        string sub=s.substr(i, j-i+1);
-        if (this->is_palindrome(sub)){
-          v[i].push_back(j);
+    for (int left=0; left<len; ++left){
+      int right=left;
+      while (s[left]==s[right] && right<len){
+        v[left].push_back(right++);
+      }
+
+      int diff_pos=right;
+      int same_len=right-left;
+      while (right<len){
+        if (s[right]==s[left]){
+          if (right-diff_pos==same_len
+              && this->is_palindrome(s.substr(left, right-left+1))){
+            v[left].push_back(right);
+          }
+        } else{
+          diff_pos=right;
         }
+        ++right;
       }
     }
 
