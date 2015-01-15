@@ -7,8 +7,7 @@
 using namespace std;
 
 
-//#define can_find(_d, _k) ((_d).find(_k)!=(_d).end())
-#define can_find(_d, _k) ((_d).count(_k)>0)
+#define can_find(_d, _k) ((_d).find(_k)!=(_d).end())
 
 class Solution{
  public:
@@ -16,30 +15,29 @@ class Solution{
     map<string, int> m;
     queue<string> q;
 
-    m.insert(pair<string, int>(start, 1));
+    m[start]=1;
     q.push(start);
 
+    dict.insert(end);
     while (!q.empty()){
       string word=q.front();
       q.pop();
-      auto cur=m.find(word);
 
       if (transform_ok(word, end)){
-        return cur->second+1;
+        return m[word]+1;
       }
 
       for (unsigned i=0; i<word.size(); ++i){
         string tmp=word;
         for (char c='a'; c<='z'; ++c){
           tmp[i]=c;
-          if (!can_find(m, tmp) && can_find(dict, tmp)){
-            m.insert(pair<string, int>(tmp, cur->second+1));
+          if (can_find(dict, tmp) && !can_find(m, tmp)){
+            m[tmp]=m[word]+1;
             q.push(tmp);
           }
         }
       }
     }
-
     return 0;
   }
 
