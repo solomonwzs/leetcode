@@ -18,7 +18,6 @@ class Solution{
     m[start]=1;
     q.push(start);
 
-    dict.insert(end);
     while (!q.empty()){
       string word=q.front();
       q.pop();
