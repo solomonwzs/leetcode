@@ -15,31 +15,29 @@ struct char_count{
 class Solution {
  public:
   int numDistinct(string S, string T){
-    vector<char_count> sc=process_str(S);
-    vector<char_count> tc=process_str(T);
+    unsigned slen=S.size();
+    unsigned tlen=T.size();
 
-    return 0;
-  }
+    vector<int> r0(slen);
+    vector<int> r1(slen);
 
- private:
-  vector<char_count> process_str(string s){
-    vector<char_count> v;
-
-    if (s.size()!=0){
-      char_count cc=char_count(s[0], 1);
-      
-      for (unsigned i=1; i<s.size(); ++i){
-        if (s[i]==cc.ch){
-          ++cc.count;
-        } else{
-          v.push_back(cc);
-          cc=char_count(s[i], 1);
-        }
-      }
-      v.push_back(cc);
+    r0[0]=S[0]==T[0]?1:0;
+    for (unsigned i=1; i<slen; ++i){
+      r0[i]=S[i]==T[0]?r0[i]+1:r0[i];
     }
 
-    return v;
+    for (unsigned ti=1; ti<tlen; ++ti){
+      r1[ti]=(r0[ti-1]!=0 && S[ti]==T[ti])?1:0;
+      for (unsigned si=ti+1; si<slen; ++si){
+        if (S[si]!=T[ti]){
+          r1[si]=r1[si-1];
+        } else{
+          r1[si]=r0[si];
+        }
+      }
+    }
+
+    return 0;
   }
 };
 
