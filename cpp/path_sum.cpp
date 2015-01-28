@@ -27,7 +27,8 @@ class Solution{
   }
 
  private:
-  void pre_order_traversal(TreeNode *node, int cur_sum, int target_sum, bool &ok){
+  void pre_order_traversal(TreeNode *node, int cur_sum, const int target_sum,
+                           bool &ok){
     if (!ok){
       if (node){
         int sum=cur_sum+node->val;
