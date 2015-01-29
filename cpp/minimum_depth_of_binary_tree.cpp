@@ -4,14 +4,6 @@
 using namespace std;
 
 
-struct TreeNode {
-  int val;
-  TreeNode *left;
-  TreeNode *right;
-  TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
-
-
 #define is_leaf(_p) ((_p)->left==NULL && (_p)->right==NULL)
 
 class Solution{

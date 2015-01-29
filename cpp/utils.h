@@ -10,6 +10,13 @@ struct ListNode{
   ListNode(int x):val(x), next(NULL){}
 };
 
+struct TreeNode {
+  int val;
+  TreeNode *left;
+  TreeNode *right;
+  TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
 #define debug_log(_fmt_, ...) \
     printf("\033[0;33m[%s:%d]\033[0m " _fmt_, __FILE__, __LINE__, ## __VA_ARGS__)
 
@@ -32,5 +39,8 @@ struct ListNode{
       _head=_head->next;\
       delete __p;\
     }
+
+extern void print_tree(TreeNode *root);
+extern void delete_tree(TreeNode *root);
 
 #endif
