@@ -8,8 +8,7 @@ CFLAGS 		=-Wall -fpic -g -c -std=gnu++11
 UTILS 		=cpp/utils.cpp
 
 ALL_SOURCES	=$(wildcard ./cpp/*.cpp)
-#SOURCES 	=$(filter-out $(UTILS), $(ALL_SOURCES))
-SOURCES 	=$(ALL_SOURCES)
+SOURCES 	=$(filter-out $(UTILS), $(ALL_SOURCES))
 OBJECTS 	=$(SOURCES:%.cpp=%.o)
 
 
