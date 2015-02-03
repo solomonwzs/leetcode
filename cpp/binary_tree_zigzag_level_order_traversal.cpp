@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <vector>
 #include "utils.h"
 
@@ -6,8 +7,9 @@ using namespace std;
 
 class Solution{
  public:
-  vector<vector<int> > levelOrder(TreeNode *root){
+  vector<vector<int> > zigzagLevelOrder(TreeNode *root){
     vector<vector<int> > out;
+    int r=0;
 
     if (root){
       vector<TreeNode *> list;
@@ -32,6 +34,11 @@ class Solution{
             list.push_back(list[i]->right);
           }
         }
+
+        if (r){
+          reverse(cur_level.begin(), cur_level.end());
+        }
+        r=r xor 1;
         out.push_back(cur_level);
 
         pos+=len;
@@ -57,7 +64,7 @@ int main(int argc, char **argv){
   v[20]->right=v[7];
 
   Solution s;
-  vector<vector<int> > out=s.levelOrder(v[3]);
+  vector<vector<int> > out=s.zigzagLevelOrder(v[3]);
 
   for (unsigned i=0; i<out.size(); ++i){
     for (unsigned j=0; j<out[i].size(); ++j){
