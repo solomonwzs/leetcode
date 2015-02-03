@@ -47,8 +47,8 @@ int main(int argc, char **argv){
   int a[]={1, 2, 4, 5, 3, 6, 7};
   int b[]={4, 2, 5, 1, 6, 3, 7};
 
-  vector<int> preorder(a, a+sizeof(a)/sizeof(int));
-  vector<int> inorder(b, b+sizeof(b)/sizeof(int));
+  vector<int> preorder(a, end_of_array(a, int));
+  vector<int> inorder(b, end_of_array(b, int));
 
   Solution s;
   TreeNode *root=s.buildTree(preorder, inorder);

@@ -2,10 +2,18 @@
 
 using namespace std;
 
+static void print_tree0(TreeNode *root);
+
 #define is_leaf(_n) (!(_n)->left && !(_n)->right)
 
 
 void print_tree(TreeNode *root){
+  print_tree0(root);
+  printf("\n");
+}
+
+
+static void print_tree0(TreeNode *root){
   if (!root){
     printf("_");
   } else{
@@ -13,13 +21,14 @@ void print_tree(TreeNode *root){
       printf("%d", root->val);
     } else{
       printf("{");
-      print_tree(root->left);
+      print_tree0(root->left);
       printf(" %d ", root->val);
-      print_tree(root->right);
+      print_tree0(root->right);
       printf("}");
     }
   }
 }
+
 
 void delete_tree(TreeNode *root){
   if (!root){

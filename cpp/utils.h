@@ -17,6 +17,12 @@ struct TreeNode {
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+#define xor_swap(_a, _b) do{\
+  _a=_a xor _b;\
+  _b=_a xor _b;\
+  _a=_a xor _b;\
+} while(0)
+
 #define debug_log(_fmt_, ...) \
     printf("\033[0;33m[%s:%d]\033[0m " _fmt_, __FILE__, __LINE__, ## __VA_ARGS__)
 
@@ -39,6 +45,18 @@ struct TreeNode {
       _head=_head->next;\
       delete __p;\
     }
+
+#define new_vector_treenode(_v, _num) \
+    for (int __i=0; __i<_num; ++__i){\
+      (_v).push_back(new TreeNode(__i));\
+    }
+
+#define delete_vectot_obj(_v) \
+    for (unsigned __i=0; __i<(_v).size(); ++__i){\
+      delete (_v)[__i];\
+    }
+
+#define end_of_array(_a, _type) (_a)+sizeof(_a)/sizeof(_type)
 
 extern void print_tree(TreeNode *root);
 extern void delete_tree(TreeNode *root);
