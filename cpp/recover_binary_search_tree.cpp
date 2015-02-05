@@ -4,6 +4,12 @@
 using namespace std;
 
 
+#define xor_swap(_a, _b) do{\
+  _a=_a xor _b;\
+  _b=_a xor _b;\
+  _a=_a xor _b;\
+} while(0)
+
 class Solution{
  public:
   void recoverTree(TreeNode *root){

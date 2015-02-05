@@ -1,8 +1,11 @@
 #ifndef __LEETCODE_CPP_UTILS__
 #define __LEETCODE_CPP_UTILS__
 
+#include <queue>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
+#include <vector>
 
 struct ListNode{
   int val;
@@ -16,12 +19,6 @@ struct TreeNode {
   TreeNode *right;
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
-
-#define xor_swap(_a, _b) do{\
-  _a=_a xor _b;\
-  _b=_a xor _b;\
-  _a=_a xor _b;\
-} while(0)
 
 #define debug_log(_fmt_, ...) \
     printf("\033[0;33m[%s:%d]\033[0m " _fmt_, __FILE__, __LINE__, ## __VA_ARGS__)
@@ -60,5 +57,7 @@ struct TreeNode {
 
 extern void print_tree(TreeNode *root);
 extern void delete_tree(TreeNode *root);
+
+extern TreeNode *build_tree(std::string str);
 
 #endif

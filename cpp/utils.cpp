@@ -39,3 +39,49 @@ void delete_tree(TreeNode *root){
     delete root;
   }
 }
+
+
+#define parser_tree_nodes(_c, _v, _q, _i) \
+    if (_v[_i]=="#"){ \
+      _c=NULL; \
+    } else{ \
+      _c=new TreeNode(atoi(_v[_i].c_str())); \
+      _q.push(_c); \
+    }
+
+TreeNode *build_tree(string str){
+  vector<string> v;
+  string s;
+  for (unsigned i=0; i<str.size(); ++i){
+    if (str[i]==','){
+      v.push_back(s);
+      s.clear();
+    } else if (('0'<=str[i] && str[i]<='9') || str[i]=='#'){
+      s.push_back(str[i]);
+    }
+  }
+  if (s.size()){
+    v.push_back(s);
+  }
+
+  if (v.size()){
+    queue<TreeNode *> pnodes;
+    TreeNode *root=new TreeNode(atoi(v[0].c_str()));
+    pnodes.push(root);
+
+    unsigned index=1;
+    while (index<v.size()){
+      TreeNode *cur=pnodes.front();
+
+      parser_tree_nodes(cur->left, v, pnodes, index);
+      ++index;
+      parser_tree_nodes(cur->right, v, pnodes, index);
+      ++index;
+
+      pnodes.pop();
+    }
+    return root;
+  } else{
+    return NULL;
+  }
+}
