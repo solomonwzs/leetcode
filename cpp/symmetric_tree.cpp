@@ -8,7 +8,7 @@ using namespace std;
 #define check_nodes(_a, _b, _v, _nl) \
     if (same_nonnull_node(_a, _b)){ \
       _v.push_back(_a); \
-      _v.push_back(_a); \
+      _v.push_back(_b); \
       _nl+=2; \
     } else if ((_a)!=NULL || (_b)!=NULL){ \
       return false; \
