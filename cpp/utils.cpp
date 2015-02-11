@@ -42,7 +42,7 @@ void delete_tree(TreeNode *root){
 
 
 #define parser_tree_nodes(_c, _v, _q, _i) \
-    if (_v[_i]=="#"){ \
+    if (_i>=_v.size() || _v[_i]=="#"){ \
       _c=NULL; \
     } else{ \
       _c=new TreeNode(atoi(_v[_i].c_str())); \
