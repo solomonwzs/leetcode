@@ -44,25 +44,24 @@ class Solution{
   }
 
   vector<TreeNode *> gen_trees0(int n, vector<vector<TreeNode *> > &cache){
-    if (n==0 || cache[n].size()!=0){
-    } else if (n==0){
-      cache[0].push_back(NULL);
-    } else if (n==1) {
-      cache[1].push_back(new TreeNode(1));
-    } else{
-      for (int i=0; i<n; ++i){
-        vector<TreeNode *> left_temp=gen_trees0(i, cache);
-        vector<TreeNode *> right_temp=gen_trees0(n-i-1, cache);
+    if (cache[n].size()==0){
+      if (n==1) {
+        cache[1].push_back(new TreeNode(1));
+      } else{
+        for (int i=0; i<n; ++i){
+          vector<TreeNode *> left_temp=gen_trees0(i, cache);
+          vector<TreeNode *> right_temp=gen_trees0(n-i-1, cache);
 
-        for (unsigned l=0; l<left_temp.size(); ++l){
-          for (unsigned r=0; r<right_temp.size(); ++r){
-            TreeNode *left=copy_tree(left_temp[l], 0);
-            TreeNode *right=copy_tree(right_temp[r], i+1);
-            TreeNode *root=new TreeNode(i+1);
-            root->left=left;
-            root->right=right;
+          for (unsigned l=0; l<left_temp.size(); ++l){
+            for (unsigned r=0; r<right_temp.size(); ++r){
+              TreeNode *left=copy_tree(left_temp[l], 0);
+              TreeNode *right=copy_tree(right_temp[r], i+1);
+              TreeNode *root=new TreeNode(i+1);
+              root->left=left;
+              root->right=right;
 
-            cache[n].push_back(root);
+              cache[n].push_back(root);
+            }
           }
         }
       }
