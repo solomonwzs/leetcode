@@ -5,58 +5,82 @@
 using namespace std;
 
 
-struct subset_with_index{
+struct subset_info{
   vector<int> set;
-  int index;
+  int last_num_count;
 };
 
 class Solution{
  public:
-  vector<vector<int> > subsetsWithDup(vector<int> &S0){
-    vector<int> S=S0;
-    vector<subset_with_index> list;
-    subset_with_index e;
+  vector<vector<int> > subsetsWithDup(vector<int> &s0){
+    vector<int> s=s0;
+    sort(s.begin(), s.end());
 
+    map<int, int> stat=num_stat(s);
+
+    vector<subset_info> list;
+    subset_info e;
     e.set=vector<int>(0);
-    e.index=-1;
-
+    e.last_num_count=0;
     list.push_back(e);
 
-    sort(S.begin(), S.end());
-    unsigned idx=0;
+    for (map<int, int>::iterator i=stat.begin(); i!=stat.end(); ++i){
+      e.set=vector<int>(1);
+      e.set[0]=i->first;
+      e.last_num_count=1;
+      list.push_back(e);
+    }
+
+    unsigned idx=1;
     while (idx<list.size()){
-      subset_with_index sub=list[idx];
-      map<int, int> m=gen_index_map(S, sub.index);
+      for (map<int, int>::iterator i=stat.begin(); i!=stat.end(); ++i){
+        int last=list[idx].set[list[idx].set.size()-1];
+        if (last==i->first){
+          if (list[idx].last_num_count<i->second){
+            subset_info ns=list[idx];
+            ns.set.push_back(last);
+            ++ns.last_num_count;
 
-      for (map<int, int>::iterator i=m.begin(); i!=m.end(); ++i){
-        subset_with_index s;
-        s.set=sub.set;
-        s.set.push_back(i->first);
-        s.index=i->second;
+            list.push_back(ns);
+          }
+        } else if (last<i->first){
+          subset_info ns;
+          ns.set=list[idx].set;
+          ns.set.push_back(i->first);
+          ns.last_num_count=1;
 
-        list.push_back(s);
+          list.push_back(ns);
+        }
       }
-
       ++idx;
     }
 
-
-    vector<vector<int> > out;
+    vector<vector<int> > out(list.size());
     for (unsigned i=0; i<list.size(); ++i){
-      out.push_back(list[i].set);
+      out[i]=list[i].set;
     }
+
     return out;
   }
 
  private:
-  map<int, int> gen_index_map(vector<int> &S, int index){
-    map<int, int> m;
-    for (unsigned i=index+1; i<S.size(); ++i){
-      if (m.find(S[i])==m.end()){
-        m[S[i]]=i;
+  map<int, int> num_stat(vector<int> &s){
+    map<int, int> out;
+    if (s.size()!=0){
+      int n=s[0];
+      int m=1;
+      for (unsigned i=1; i<s.size(); ++i){
+        if (s[i]==n){
+          ++m;
+        } else{
+          out[n]=m;
+          n=s[i];
+          m=1;
+        }
       }
+      out[n]=m;
     }
-    return m;
+    return out;
   }
 };
 
