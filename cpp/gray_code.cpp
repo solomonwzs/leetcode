@@ -19,6 +19,15 @@ class Solution{
 
     return out;
   }
+
+  vector<int> grayCode0(int n){
+    vector<int> out;
+    int size=1<<n;
+    for (int i=0; i<size; ++i) {
+      out.push_back((i>>1)^i);
+    }
+    return out;
+  }
 };
 
 
