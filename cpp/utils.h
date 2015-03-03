@@ -60,4 +60,16 @@ extern void delete_tree(TreeNode *root);
 
 extern TreeNode *build_tree(std::string str);
 
+extern void print_binary(int i, int len);
+
+
+template<class T>
+std::string format_binary(T x, size_t len){
+  char b[len+1]={0};
+  for (size_t z=0; z<len; ++z){
+    b[len-z-1]=((x>>z) & 0x1)?'1':'0';
+  }
+  return std::string(b);
+}
+
 #endif

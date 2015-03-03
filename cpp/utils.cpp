@@ -85,3 +85,11 @@ TreeNode *build_tree(string str){
     return NULL;
   }
 }
+
+
+void print_binary(int i, int len){
+  for (int z=len-1; z>=0; --z){
+    printf("%d", ((i>>z) & 0x1));
+  }
+  printf("\n");
+}
