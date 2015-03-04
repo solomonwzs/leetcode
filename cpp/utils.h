@@ -62,6 +62,8 @@ extern TreeNode *build_tree(std::string str);
 
 extern void print_binary(int i, int len);
 
+extern void print_string(char *str, int len);
+
 
 template<class T>
 std::string format_binary(T x, size_t len){

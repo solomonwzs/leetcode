@@ -93,3 +93,11 @@ void print_binary(int i, int len){
   }
   printf("\n");
 }
+
+
+void print_string(char *str, int len){
+  for (int i=0; i<len; ++i){
+    printf("%c", str[i]);
+  }
+  printf("\n");
+}

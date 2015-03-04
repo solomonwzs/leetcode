@@ -1,7 +1,5 @@
 #include "utils.h"
 
-using namespace std;
-
 
 void merge(int a[], int m, int b[], int n){
   int *alias=a;
@@ -25,6 +23,7 @@ void merge(int a[], int m, int b[], int n){
     }
   }
 }
+
 
 int main(int argc, char **argv){
   int a[10]={2, 4, 6, 8};
