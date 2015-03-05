@@ -22,7 +22,7 @@ struct ListNode *partition(struct ListNode *head, int x){
 
 
 int main(int argc, char **argv){
-  ListNode *head;
+  ListNode *head=NULL;
   build_link_list_from_argv(head, argc-1, argv);
   int x=atoi(argv[argc-1]);
 
