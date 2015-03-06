@@ -42,7 +42,7 @@ int maximalRectangle(char **matrix, int numRows, int numColumns){
         int pre_height=j==0?0:__m(i, j-1).heigth;
         int heigth=numRows;
         area=0;
-        for (int k=j; heigth>pre_height && k<numRows && matrix[i][k]=='1'; ++k){
+        for (int k=j; heigth>pre_height && k<numColumns && matrix[i][k]=='1'; ++k){
           if (heigth>__m(i, k).heigth){
             heigth=__m(i, k).heigth;
             area=(k-j+1)*heigth;
