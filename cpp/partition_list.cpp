@@ -3,15 +3,15 @@
 
 struct ListNode *partition(struct ListNode *head, int x){
   struct ListNode *tail=NULL;
-  struct ListNode **greater_head=&tail;
+  struct ListNode **greater=&tail;
   struct ListNode **cur=&head;
   while (*cur){
     struct ListNode *p=*cur;
     if (p->val>=x){
       *cur=p->next;
       p->next=NULL;
-      *greater_head=p;
-      greater_head=&p->next;
+      *greater=p;
+      greater=&p->next;
     } else{
       cur=&p->next;
     }
