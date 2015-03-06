@@ -5,18 +5,19 @@ struct max_len{
   int width, heigth;
 };
 
+
 int maximalRectangle(char **matrix, int numRows, int numColumns){
   struct max_len *m=(struct max_len *)malloc(sizeof(struct max_len)
                                              *numRows*numColumns);
+#define __m(_i, _j) (m[numColumns*(_i)+(_j)])
   for (int i=numRows-1; i>=0; --i){
     for (int j=numColumns-1; j>=0; --j){
-      struct max_len *cur=m+(numColumns*i+j);
       if (matrix[i][j]=='0'){
-        cur->width=0;
-        cur->heigth=0;
+        __m(i, j).width=0;
+        __m(i, j).heigth=0;
       } else{
-        cur->width=j!=numColumns-1?m[numColumns*i+j+1].width+1:1;
-        cur->heigth=i!=numRows-1?m[numColumns*(i+1)+j].heigth+1:1;
+        __m(i, j).width=j!=numColumns-1?__m(i, j+1).width+1:1;
+        __m(i, j).heigth=i!=numRows-1?__m(i+1, j).heigth+1:1;
       }
     }
   }
@@ -24,14 +25,13 @@ int maximalRectangle(char **matrix, int numRows, int numColumns){
   int max=0;
   for (int i=0; i<numRows; ++i){
     for (int j=0; j<numColumns; ++j){
-      struct max_len *cur=m+(numColumns*i+j);
-      if (cur->width!=0){
-        int pre_width=i==0?0:m[numColumns*(i-1)+j].width;
+      if (__m(i, j).width!=0){
+        int pre_width=i==0?0:__m(i-1, j).width;
         int width=numColumns;
         int area=0;
         for (int k=i; width>pre_width && k<numRows && matrix[k][j]=='1'; ++k){
-          if (width>m[numColumns*k+j].width){
-            width=m[numColumns*k+j].width;
+          if (width>__m(k, j).width){
+            width=__m(k, j).width;
             area=width*(k-i+1);
           } else{
             area+=width;
@@ -39,12 +39,12 @@ int maximalRectangle(char **matrix, int numRows, int numColumns){
           max=area>max?area:max;
         }
         
-        int pre_height=j==0?0:m[numColumns*i+j-1].heigth;
+        int pre_height=j==0?0:__m(i, j-1).heigth;
         int heigth=numRows;
         area=0;
         for (int k=j; heigth>pre_height && k<numRows && matrix[i][k]=='1'; ++k){
-          if (heigth>m[numColumns*i+k].heigth){
-            heigth=m[numColumns*i+k].heigth;
+          if (heigth>__m(i, k).heigth){
+            heigth=__m(i, k).heigth;
             area=(k-j+1)*heigth;
           } else{
             area+=heigth;
@@ -54,7 +54,7 @@ int maximalRectangle(char **matrix, int numRows, int numColumns){
       }
     }
   }
-
+#undef __m
   free(m);
   return max;
 }
