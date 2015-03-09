@@ -3,60 +3,34 @@
 using namespace std;
 
 
-class Solution{
- public:
-  int largestRectangleArea(vector<int> &height) {
-    if (height.size()<=0) return 0;
-    vector<int> stack;
-    height.push_back(0);
-    int maxArea = 0;
-    for(int i=0; i<(int)height.size(); i++){
-      if ( stack.size()<=0 || height[i] >= height[stack.back()] ) {
-        stack.push_back(i);
-        continue;
-      }
-      int topIdx = stack.back();
-      stack.pop_back();
-      int area = height[topIdx] * (stack.size()==0 ? i : i - stack.back() - 1 );
-      if ( area > maxArea ) {
-        maxArea = area;
-      }
-      i--;
-    }
-    return maxArea;
-  }
-};
-
-
 int largestRectangleArea(int height[], int n){
   if (n==0){
     return 0;
   }
 
-  bool *cal=(bool *)malloc(sizeof(bool)*n);
-  for (int i=0; i<n; ++i){
-    cal[i]=false;
-  }
-
+  int *max_height_idx=(int *)malloc(sizeof(int)*n);
+  int size=0;
   int max=0;
-  for (int i=0; i<n; ++i){
-    int area=0;
-    int cur_height=height[i];
-
-    for (int j=i; !cal[j] && j<n; ++j){
-      if (cur_height>=height[j]){
-        cal[j]=true;
-        cur_height=height[j];
-        area=(j-i+1)*cur_height;
-      } else{
-        area+=cur_height;
-      }
+  int i=0;
+  while (i<n || size>0){
+    if (i<n && (size==0 || height[i]>=height[max_height_idx[size-1]])){
+      ++size;
+      max_height_idx[size-1]=i;
+      ++i;
+    } else{
+      int max_height=height[max_height_idx[size-1]];
+      int left_idx=size==1?0:max_height_idx[size-2]+1;
+      int width=i-left_idx;
+      int area=max_height*width;
       if (max<area){
         max=area;
       }
+
+      --size;
     }
   }
-  free(cal);
+
+  free(max_height_idx);
   return max;
 }
 
@@ -65,14 +39,12 @@ int largestRectangleArea(int height[], int n){
 int main(int argc, char **argv){
   int height[MAX];
   for (int i=0; i<MAX; ++i){
-    height[i]=MAX;
+    height[i]=MAX-i;
   }
-  vector<int> h(height, end_of_array(height, int));
   for (int i=0; i<1000; ++i){
-    largestRectangleArea(height, MAX);
-    //s.largestRectangleArea(h);
+    largestRectangleArea(height, sizeof(height)/sizeof(int));
   }
-  //int height[]={3, 3, 3, 3, 3, 3, 3};
-  //debug_log("%d\n", largestRectangleArea(height, sizeof(height)/sizeof(int)));
+  int height0[]={4, 2, 0, 3, 2, 5};
+  debug_log("%d\n", largestRectangleArea(height0, sizeof(height0)/sizeof(int)));
   return 0;
 }
