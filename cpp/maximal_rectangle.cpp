@@ -1,61 +1,101 @@
 #include "utils.h"
 
 
-struct max_len{
-  int width, heigth;
-};
+static int largest_rectangle_area(int len[], int n, int max_len_idx[]){
+  if (n==0){
+    return 0;
+  }
+
+  int size=0;
+  int max=0;
+  int i=0;
+  while (i<n || size>0){
+    if (i<n && (size==0 || len[i]>=len[max_len_idx[size-1]])){
+      ++size;
+      max_len_idx[size-1]=i;
+      ++i;
+    } else{
+      int max_height=len[max_len_idx[size-1]];
+      int left_idx=size==1?0:max_len_idx[size-2]+1;
+      int width=i-left_idx;
+      int area=max_height*width;
+      if (max<area){
+        max=area;
+      }
+
+      --size;
+    }
+  }
+
+  return max;
+}
 
 
 int maximalRectangle(char **matrix, int numRows, int numColumns){
-  struct max_len *m=(struct max_len *)malloc(sizeof(struct max_len)
-                                             *numRows*numColumns);
-#define __m(_i, _j) (m[numColumns*(_i)+(_j)])
+  int *max_width=(int *)malloc(sizeof(int)*numRows*numColumns);
+  int *max_height=(int *)malloc(sizeof(int)*numRows*numColumns);
+  int *idx=(int *)malloc(sizeof(int)*(numColumns>numRows?numColumns:numRows));
+  int *len=(int *)malloc(sizeof(int)*(numColumns>numRows?numColumns:numRows));
+
+#define __p(_m, _i, _j) (_m[numColumns*(_i)+(_j)])
   for (int i=numRows-1; i>=0; --i){
     for (int j=numColumns-1; j>=0; --j){
       if (matrix[i][j]=='0'){
-        __m(i, j).width=0;
-        __m(i, j).heigth=0;
+        __p(max_width, i, j)=0;
+        __p(max_height, i, j)=0;
       } else{
-        __m(i, j).width=j!=numColumns-1?__m(i, j+1).width+1:1;
-        __m(i, j).heigth=i!=numRows-1?__m(i+1, j).heigth+1:1;
+        __p(max_width, i, j)=j!=numColumns-1?__p(max_width, i, j+1)+1:1;
+        __p(max_height, i, j)=i!=numRows-1?__p(max_height, i+1, j)+1:1;
       }
     }
   }
 
   int max=0;
   for (int i=0; i<numRows; ++i){
-    for (int j=0; j<numColumns; ++j){
-      if (__m(i, j).width!=0){
-        int pre_width=i==0?0:__m(i-1, j).width;
-        int width=numColumns;
-        int area=0;
-        for (int k=i; width>pre_width && k<numRows && matrix[k][j]=='1'; ++k){
-          if (width>__m(k, j).width){
-            width=__m(k, j).width;
-            area=width*(k-i+1);
-          } else{
-            area+=width;
-          }
-          max=area>max?area:max;
-        }
-        
-        int pre_height=j==0?0:__m(i, j-1).heigth;
-        int heigth=numRows;
-        area=0;
-        for (int k=j; heigth>pre_height && k<numColumns && matrix[i][k]=='1'; ++k){
-          if (heigth>__m(i, k).heigth){
-            heigth=__m(i, k).heigth;
-            area=(k-j+1)*heigth;
-          } else{
-            area+=heigth;
-          }
-          max=area>max?area:max;
-        }
+    len[i]=0;
+  }
+  for (int j=0; j<numColumns; ++j){
+    bool exec=false;
+    for (int i=0; i<numRows; ++i){
+      if (!exec && __p(max_width, i, j)!=len[i]-1){
+        exec=true;
+      }
+      len[i]=__p(max_width, i, j);
+    }
+
+    if (exec){
+      int area=largest_rectangle_area(len, numRows, idx);
+      if (max<area){
+        max=area;
       }
     }
   }
-#undef __m
-  free(m);
+
+  for (int i=0; i<numColumns; ++i){
+    len[i]=0;
+  }
+  for (int i=0; i<numRows; ++i){
+    bool exec=false;
+    for (int j=0; j<numColumns; ++j){
+      if (!exec && __p(max_height, i, j)!=len[j]-1){
+        exec=true;
+      }
+      len[j]=__p(max_height, i, j);
+    }
+
+    if (exec){
+      int area=largest_rectangle_area(len, numColumns, idx);
+      if (max<area){
+        max=area;
+      }
+    }
+  }
+#undef __p
+
+  free(len);
+  free(idx);
+  free(max_height);
+  free(max_width);
   return max;
 }
 
