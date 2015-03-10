@@ -2,14 +2,18 @@
 
 
 struct ListNode *deleteDuplicates(struct ListNode *head){
-  struct ListNode *p=head;
-  while (p && p->next){
-    struct ListNode *next=p->next;
-    if (p->val==next->val){
-      p->next=next->next;
-      free(next);
+  struct ListNode **cur=&head;
+
+  while (*cur && (*cur)->next){
+    if ((*cur)->val!=(*cur)->next->val){
+      cur=&((*cur)->next);
     } else{
-      p=p->next;
+      int del_val=(*cur)->val;
+      do{
+        struct ListNode *del_node=*cur;
+        *cur=del_node->next;
+        free(del_node);
+      } while (*cur && (*cur)->val==del_val);
     }
   }
 
