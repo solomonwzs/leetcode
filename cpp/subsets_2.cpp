@@ -33,8 +33,8 @@ class Solution{
 
     unsigned idx=1;
     while (idx<list.size()){
+      int last=list[idx].set.back();
       for (map<int, int>::iterator i=stat.begin(); i!=stat.end(); ++i){
-        int last=list[idx].set[list[idx].set.size()-1];
         if (last==i->first){
           if (list[idx].last_num_count<i->second){
             subset_info ns=list[idx];
