@@ -26,8 +26,7 @@ class Solution(object):
                 dL=abs(prices[i]-prices[i+1])
                 if dL<minL[1]:
                     minL=(i, dL)
-            prices.pop(minL[0])
-            prices.pop(minL[0])
+            del prices[minL[0]:minL[0]+2]
 
         profit=0
         for i in xrange(len(prices)/2):
