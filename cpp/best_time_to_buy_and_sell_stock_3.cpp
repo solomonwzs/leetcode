@@ -17,26 +17,23 @@ class Solution{
     vector<int> prices0;
     prices0.push_back(prices[0]);
     for (unsigned i=1; i<prices.size(); ++i){
-      if (slope==1 && last<=prices[i]){
-        last=prices[i];
-      } else if (slope==1 && last>prices[i]){
+      if (slope==1 && last>prices[i]){
         slope=-1;
         prices0.push_back(last);
-        last=prices[i];
-      } else if (slope==-1 && last>=prices[i]){
-        last=prices[i];
       } else if (slope==-1 && last<prices[i]){
         slope=1;
         prices0.push_back(last);
-        last=prices[i];
       }
+      last=prices[i];
     }
     prices0.push_back(last);
 
     int max=std::numeric_limits<int>::min();
-    for (unsigned i=0; i<prices0.size(); ++i){
+    for (unsigned i=prices0[0]<prices0[1]?1:0;
+         i<prices0.size();
+         i+=2){
       int p0=sub_max_profit(prices0, 0, i);
-      int p1=sub_max_profit(prices0, i, prices0.size()-1);
+      int p1=sub_max_profit(prices0, i+1, prices0.size()-1);
 
       if (p0+p1>max){
         max=p0+p1;

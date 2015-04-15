@@ -1,5 +1,4 @@
 class Solution:
-    @profile
     def maximumGap(self, num):
         l=len(num)
         if l<2:
