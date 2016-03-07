@@ -7,7 +7,7 @@ class FenwickTree(object):
         return x & (-x)
 
     def add(self, i, delta):
-        while i < self.n:
+        while i <= self.n:
             self.sum_array[i] += delta
             i += self.lowbit(i)
 
