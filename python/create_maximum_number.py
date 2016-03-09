@@ -31,25 +31,6 @@ class Solution(object):
                 i = bp[i]
         return res
 
-    def __megra(self, nums1, nums2):
-        res = []
-        i1 = 0
-        i2 = 0
-        l1 = len(nums1)
-        l2 = len(nums2)
-        while i1 < l1 and i2 < l2:
-            if nums1[i1:] > nums2[i2:]:
-                res.append(nums1[i1])
-                i1 += 1
-            else:
-                res.append(nums2[i2])
-                i2 += 1
-
-        if i1 < l1:
-            return res + nums1[i1:]
-        if i2 < l2:
-            return res + nums2[i2:]
-
     def maxNumber(self, nums1, nums2, k):
         """
         :type nums1: List[int]
@@ -66,9 +47,7 @@ class Solution(object):
             if k2 <= len(nums2):
                 sub1 = self.__maxNumberOneLine(nums1, k1, bp1)
                 sub2 = self.__maxNumberOneLine(nums2, k2, bp2)
-                m = self.__megra(sub1, sub2)
-                if m > res:
-                    res = m
+                res = max(res, [max(sub1, sub2).pop(0) for _ in xrange(k)])
         return res
 
 
