@@ -27,4 +27,4 @@ class Solution(object):
 
 if __name__ == "__main__":
     s = Solution()
-    print s.maxCoins([3, 1, 5, 8])
+    print s.maxCoins(range(100) + range(100))

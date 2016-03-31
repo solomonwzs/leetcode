@@ -23,7 +23,7 @@ class Solution {
     for (int i=0; i<len; ++i){
       for (unsigned j=0; j<v[i].size(); ++j){
         int next=v[i][j];
-        string sub=s.substr(i, next-i+1);
+        // string sub=s.substr(i, next-i+1);
         if (r[next+1]>r[i]+1){
           r[next+1]=r[i]+1;
         }
