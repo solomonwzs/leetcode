@@ -1,3 +1,8 @@
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
+
+__author__ = "Solomon Ng"
+
 from collections import deque
 
 

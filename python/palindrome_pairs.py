@@ -1,3 +1,9 @@
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
+
+__author__ = "Solomon Ng"
+
+
 class Solution(object):
     def isPalindrome(self, word):
         l = len(word)
