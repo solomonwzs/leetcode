@@ -2,16 +2,18 @@
 
 .SUFFIXES: 	.cpp
 
-CC 			=g++
-CFLAGS 		=-Wall -fpic -g -c -std=gnu++11
+CC 			= g++
+CFLAGS 		= -Wall -fpic -g -c -std=gnu++11
 
-UTILS 		=cpp/utils.cpp
+UTILS 		= cpp/utils.cpp
 
-LIB_PATH 	=$(shell pwd)/bin
+LIB_PATH 	= $(shell pwd)/bin
 
-ALL_SOURCES	=$(wildcard ./cpp/*.cpp)
-SOURCES 	=$(filter-out $(UTILS), $(ALL_SOURCES))
-OBJECTS 	=$(SOURCES:%.cpp=%.o)
+ALL_SOURCES	= $(wildcard ./cpp/*.cpp)
+SOURCES 	= $(filter-out $(UTILS), $(ALL_SOURCES))
+OBJECTS 	= $(SOURCES:%.cpp=%.o)
+
+VALGRIND 	= valgrind
 
 
 .cpp.o:
@@ -31,3 +33,12 @@ all:$(UTILS:%.cpp=%.o) $(OBJECTS)
 
 clean:
 	@rm $(OBJECTS) ./bin/* 2>/dev/null
+
+mem_check: all
+	$(VALGRIND) \
+		--tool=memcheck \
+		--leak-check=yes \
+		--show-reachable=yes \
+		--num-callers=20 \
+		--track-fds=yes \
+		./bin/implement_magic_dictionary
