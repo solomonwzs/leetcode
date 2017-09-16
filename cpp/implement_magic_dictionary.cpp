@@ -8,32 +8,24 @@ using namespace std;
 
 class MagicDictionary {
  private:
-  vector<unordered_map<string, int>> mlist;
+  unordered_map<string, int> hdict;
   unordered_set<string> od;
-  unsigned maxLen;
 
  public:
   MagicDictionary() {
   }
 
   void buildDict(vector<string> dict) {
-    this->maxLen = 0;
     for (vector<string>::iterator it = dict.begin(); it != dict.end(); ++it) {
       this->od.insert(*it);
-      if (this->maxLen < it->length()) {
-        this->maxLen = it->length();
-      }
-    }
-    this->mlist.resize(maxLen);
 
-    for (vector<string>::iterator it = dict.begin(); it != dict.end(); ++it) {
       for (unsigned i = 0; i < it->length(); ++i) {
         char ch = (*it)[i];
         (*it)[i] = '*';
 
-        auto item = this->mlist[i].find(*it);
-        if (item == this->mlist[i].end()) {
-          this->mlist[i].insert(pair<string, int>(*it, 1));
+        auto item = this->hdict.find(*it);
+        if (item == this->hdict.end()) {
+          this->hdict.insert(pair<string, int>(*it, 1));
         } else {
           item->second += 1;
         }
@@ -48,12 +40,12 @@ class MagicDictionary {
     bool find = s != this->od.end();
 
     bool match = false;
-    for (unsigned i = 0; i < word.length() && i < this->maxLen; ++i) {
+    for (unsigned i = 0; i < word.length(); ++i) {
       char ch = word[i];
       word[i] = '*';
 
-      auto item = this->mlist[i].find(word);
-      if (item != this->mlist[i].end()) {
+      auto item = this->hdict.find(word);
+      if (item != this->hdict.end()) {
         if (!find || item->second > 1) {
           match = true;
         }
