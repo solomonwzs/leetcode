@@ -1,11 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
 
-func findSubstring(s string, words []string) (res []int) {
+func findSubstring0(s string, words []string) (res []int) {
 	res = make([]int, 0)
 
 	if len(words) == 0 {
@@ -68,11 +67,68 @@ func findSubstring(s string, words []string) (res []int) {
 	return
 }
 
-func main() {
-	fmt.Println(findSubstring(
-		"barfoothefoobarman",
-		[]string{"foo", "bar"}))
-	fmt.Println(findSubstring(
-		"wordgoodgoodgoodbestword",
-		[]string{"word", "good", "best", "word"}))
+func findSubstring1(s string, words0 []string) (res []int) {
+	res = make([]int, 0)
+	if len(words0) == 0 {
+		return
+	}
+
+	wordCount := make(map[string]int)
+	for _, word := range words0 {
+		if val, exist := wordCount[word]; exist {
+			wordCount[word] = val + 1
+		} else {
+			wordCount[word] = 1
+		}
+	}
+
+	words := make([]string, len(wordCount))
+	iCount := make([]int, len(wordCount))
+	i := 0
+	for word, count := range wordCount {
+		words[i] = word
+		iCount[i] = count
+		i += 1
+	}
+
+	posDict := make(map[int]int)
+	for i, word := range words {
+		begin := 0
+		for begin < len(s) {
+			if pos := strings.Index(s[begin:], word); pos == -1 {
+				break
+			} else {
+				posDict[pos+begin] = i
+				begin += pos + 1
+			}
+		}
+	}
+
+	wordLen := len(words[0])
+	for pos, i := range posDict {
+		iCount0 := make([]int, len(words))
+		iCount0[i] = 1
+
+		next := pos + wordLen
+		match := 1
+		for match < len(words0) && next < len(s) {
+			if wi, exist := posDict[next]; !exist {
+				break
+			} else {
+				if val := iCount0[wi]; val < iCount[wi] {
+					iCount0[wi] += 1
+					match += 1
+					next += wordLen
+				} else {
+					break
+				}
+			}
+		}
+
+		if match == len(words0) {
+			res = append(res, pos)
+		}
+	}
+
+	return
 }
