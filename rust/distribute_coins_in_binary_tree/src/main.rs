@@ -21,25 +21,36 @@ impl TreeNode {
 
 pub struct Solution {}
 
-macro_rules! try_opt {
-    ($expr: expr) => {
-        match $expr {
-            Some(value) => value,
-            None => return None,
-        }
-    };
-}
-
 impl Solution {
-    fn move_coins(root: Option<Rc<RefCell<TreeNode>>>, mov: &mut i32) -> i32 {
-        match root {
-            None => return 0,
-            Some(x) => {
-                let rn = x.borrow();
-                let mut val: i32 = x.borrow().val;
+    fn move_coins(root: Option<Rc<RefCell<TreeNode>>>, mov: &mut i32) {
+        if let Some(node) = root {
+            let mut val: i32 = node.borrow().val;
 
-                0
+            if let Some(left) = node.borrow().left.as_ref() {
+                Solution::move_coins(Some(left.clone()), mov);
+                let cval: i32 = left.borrow().val;
+                if cval > 1 {
+                    *mov += cval - 1;
+                    val += cval - 1;
+                } else {
+                    *mov += 1 - cval;
+                    val -= 1 - cval;
+                }
             }
+
+            if let Some(right) = node.borrow().right.as_ref() {
+                Solution::move_coins(Some(right.clone()), mov);
+                let cval: i32 = right.borrow().val;
+                if cval > 1 {
+                    *mov += cval - 1;
+                    val += cval - 1;
+                } else {
+                    *mov += 1 - cval;
+                    val -= 1 - cval;
+                }
+            }
+
+            node.borrow_mut().val = val;
         }
     }
 
@@ -47,9 +58,9 @@ impl Solution {
         if root == None {
             return 0;
         }
-
         let mut mov: i32 = 0;
-        0
+        Solution::move_coins(root, &mut mov);
+        mov
     }
 }
 
@@ -59,16 +70,31 @@ mod test {
 
     #[test]
     fn it_work0() {
-        let mut n0 = TreeNode::new(1);
-        let mut n1 = TreeNode::new(0);
-        let n2 = TreeNode::new(0);
-        let n3 = TreeNode::new(3);
+        let n0 = Rc::new(RefCell::new(TreeNode::new(1)));
+        let n1 = Rc::new(RefCell::new(TreeNode::new(0)));
+        let n2 = Rc::new(RefCell::new(TreeNode::new(0)));
+        let n3 = Rc::new(RefCell::new(TreeNode::new(3)));
 
-        n0.left = Some(Rc::new(RefCell::new(n1)));
-        n0.right = Some(Rc::new(RefCell::new(n2)));
-        n1.right = Some(Rc::new(RefCell::new(n3)));
+        n0.borrow_mut().left = Some(n1.clone());
+        n0.borrow_mut().right = Some(n2.clone());
+        n1.borrow_mut().right = Some(n3.clone());
 
-        let root = Some(Rc::new(RefCell::new(n0)));
-        println!("{}", Solution::distribute_coins(root));
+        assert_eq!(Solution::distribute_coins(Some(n0)), 4);
+    }
+
+    #[test]
+    fn it_work1() {
+        let n0 = Rc::new(RefCell::new(TreeNode::new(3)));
+        let n1 = Rc::new(RefCell::new(TreeNode::new(0)));
+        let n2 = Rc::new(RefCell::new(TreeNode::new(0)));
+        let n3 = Rc::new(RefCell::new(TreeNode::new(0)));
+        let n4 = Rc::new(RefCell::new(TreeNode::new(2)));
+
+        n0.borrow_mut().right = Some(n1.clone());
+        n1.borrow_mut().left = Some(n2.clone());
+        n2.borrow_mut().left = Some(n3.clone());
+        n3.borrow_mut().left = Some(n4.clone());
+
+        assert_eq!(Solution::distribute_coins(Some(n0)), 4);
     }
 }

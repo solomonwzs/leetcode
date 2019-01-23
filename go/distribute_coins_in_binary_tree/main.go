@@ -6,32 +6,29 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func distributeCoins0(root *TreeNode, move *int) int {
-	var (
-		val  int = root.Val
-		cval int
-	)
+func moveCoins(root *TreeNode, move *int) {
 	if root.Left != nil {
-		cval = distributeCoins0(root.Left, move)
+		moveCoins(root.Left, move)
+		cval := root.Left.Val
 		if cval > 1 {
 			*move += cval - 1
-			val += (cval - 1)
+			root.Val += (cval - 1)
 		} else if cval < 1 {
 			*move += 1 - cval
-			val -= (1 - cval)
+			root.Val -= (1 - cval)
 		}
 	}
 	if root.Right != nil {
-		cval = distributeCoins0(root.Right, move)
+		moveCoins(root.Right, move)
+		cval := root.Right.Val
 		if cval > 1 {
 			*move += cval - 1
-			val += (cval - 1)
+			root.Val += (cval - 1)
 		} else if cval < 1 {
 			*move += 1 - cval
-			val -= (1 - cval)
+			root.Val -= (1 - cval)
 		}
 	}
-	return val
 }
 
 func distributeCoins(root *TreeNode) int {
@@ -40,6 +37,6 @@ func distributeCoins(root *TreeNode) int {
 	}
 
 	move := 0
-	distributeCoins0(root, &move)
+	moveCoins(root, &move)
 	return move
 }
