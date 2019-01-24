@@ -9,3 +9,7 @@ func TestSub(t *testing.T) {
 func TestSub1(t *testing.T) {
 	t.Log(subarraysDivByK([]int{8, 9, 7, 8, 9}, 8))
 }
+
+func TestSub2(t *testing.T) {
+	t.Log(subarraysDivByK([]int{-2}, 6))
+}

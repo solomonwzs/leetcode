@@ -1,6 +1,6 @@
 package main
 
-func subarraysDivByK(a []int, k int) (r int) {
+func subarraysDivByK_old(a []int, k int) (r int) {
 	for i := 0; i < len(a); i++ {
 		a[i] = a[i] % k
 	}
@@ -32,5 +32,25 @@ func subarraysDivByK(a []int, k int) (r int) {
 		r += (1 + m) * m / 2
 	}
 
+	return
+}
+
+func subarraysDivByK(a []int, k int) (r int) {
+	modK := make([]int, k)
+	modK[0] = 1
+	sum := 0
+	for _, i := range a {
+		sum += i
+		mod := sum % k
+		if mod < 0 {
+			mod += k
+		}
+		modK[mod] += 1
+	}
+
+	r = 0
+	for _, n := range modK {
+		r += n * (n - 1) / 2
+	}
 	return
 }
