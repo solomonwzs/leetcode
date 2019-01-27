@@ -2,3 +2,5 @@
 Cargo.lock
 target/
 build/
+.ropeproject/
+bin/
