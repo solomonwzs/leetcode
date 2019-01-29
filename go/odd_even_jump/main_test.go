@@ -26,13 +26,6 @@ func TestJump4(t *testing.T) {
 	t.Log(oddEvenJumpsNew(a))
 }
 
-func TestOrderList(t *testing.T) {
-	l := orderList(make([][2]int, 0))
-	l.add([2]int{1, 2})
-	l.add([2]int{2, 1})
-	t.Log(l)
-}
-
 func BenchmarkJump(b *testing.B) {
 	a := []int{1, 2, 3, 2, 1, 4, 4, 5}
 	for i := 0; i < b.N; i++ {
