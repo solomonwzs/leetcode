@@ -1,0 +1,7 @@
+[package]
+name = "triples_with_bitwise_and_equal_to_zero"
+version = "0.1.0"
+authors = ["solomon <solomon.wzs@gmail.com>"]
+edition = "2018"
+
+[dependencies]
