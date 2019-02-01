@@ -25,10 +25,11 @@ func dfs(root *TreeNode) [3]int {
 	rightRes := dfs(root.Right)
 
 	var res [3]int
-	res[0] = 1 + min(leftRes[0], min(leftRes[1], leftRes[2])) +
-		min(rightRes[0], min(rightRes[1], rightRes[2]))
+	res[0] = 1 + min(leftRes[0], leftRes[1], leftRes[2]) +
+		min(rightRes[0], rightRes[1], rightRes[2])
 	res[1] = min(
-		min(leftRes[0]+rightRes[1], leftRes[1]+rightRes[0]),
+		leftRes[0]+rightRes[1],
+		leftRes[1]+rightRes[0],
 		leftRes[0]+rightRes[0])
 	res[2] = leftRes[1] + rightRes[1]
 

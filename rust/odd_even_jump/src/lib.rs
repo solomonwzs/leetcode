@@ -25,7 +25,8 @@ impl Solution {
                 higher[i] = lower[*hi.1];
             }
             if let Some(lo) =
-                ordlist.range((Unbounded, Included(&a[i]))).rev().next() {
+                ordlist.range((Unbounded, Included(&a[i]))).rev().next()
+            {
                 lower[i] = higher[*lo.1];
             }
             ordlist.insert(a[i], i);
