@@ -6,12 +6,44 @@ func TestSub0(t *testing.T) {
 	t.Log(subarraysWithKDistinct([]int{1, 2, 1, 2, 3}, 2) == 7)
 }
 
+func TestSubV2(t *testing.T) {
+	t.Log(subarraysWithKDistinctV2([]int{1, 2, 1, 2, 3}, 2) == 7)
+}
+
+func TestSubV3(t *testing.T) {
+	t.Log(subarraysWithKDistinctV3([]int{1, 2, 1, 2, 3}, 2) == 7)
+}
+
 func TestSub1(t *testing.T) {
 	t.Log(subarraysWithKDistinct([]int{1, 2, 1, 3, 4}, 3) == 3)
 }
 
 func TestSub2(t *testing.T) {
 	t.Log(subarraysWithKDistinct([]int{2, 1, 1, 1, 2}, 1) == 8)
+}
+
+func BenchmarkSub(b *testing.B) {
+	a := []int{5, 7, 5, 2, 3, 3, 4, 1, 5, 2, 7, 4, 6, 2, 3, 8, 4, 5, 7}
+	k := 7
+	for i := 0; i < b.N; i++ {
+		subarraysWithKDistinct(a, k)
+	}
+}
+
+func BenchmarkSubV2(b *testing.B) {
+	a := []int{5, 7, 5, 2, 3, 3, 4, 1, 5, 2, 7, 4, 6, 2, 3, 8, 4, 5, 7}
+	k := 7
+	for i := 0; i < b.N; i++ {
+		subarraysWithKDistinctV2(a, k)
+	}
+}
+
+func BenchmarkSubV3(b *testing.B) {
+	a := []int{5, 7, 5, 2, 3, 3, 4, 1, 5, 2, 7, 4, 6, 2, 3, 8, 4, 5, 7}
+	k := 7
+	for i := 0; i < b.N; i++ {
+		subarraysWithKDistinctV3(a, k)
+	}
 }
 
 func TestSub3(t *testing.T) {
