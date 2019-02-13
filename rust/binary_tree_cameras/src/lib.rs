@@ -17,8 +17,7 @@ impl TreeNode {
     }
 }
 
-pub struct Solution {
-}
+pub struct Solution {}
 
 use std::cell::RefCell;
 use std::cmp::min;
