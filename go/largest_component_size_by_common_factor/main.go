@@ -7,15 +7,13 @@ var primes []int = []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47,
 	311, 313}
 
 type groupMeta struct {
-	id     int
 	count  int
 	rank   int
 	parent *groupMeta
 }
 
-func newGroupMeta(id int) *groupMeta {
+func newGroupMeta() *groupMeta {
 	return &groupMeta{
-		id:     id,
 		count:  0,
 		rank:   0,
 		parent: nil,
@@ -45,7 +43,7 @@ func largestComponentSize(a []int) int {
 			if x%primes[j] == 0 {
 				if len(pl[i]) == 0 || pl[i][len(pl[i])-1] != primes[j] {
 					if _, exist := gmMap[primes[j]]; !exist {
-						gmMap[primes[j]] = newGroupMeta(primes[j])
+						gmMap[primes[j]] = newGroupMeta()
 					}
 					pl[i] = append(pl[i], primes[j])
 				}
@@ -56,7 +54,7 @@ func largestComponentSize(a []int) int {
 		}
 		if x != 1 {
 			if _, exist := gmMap[x]; !exist {
-				gmMap[x] = newGroupMeta(x)
+				gmMap[x] = newGroupMeta()
 			}
 			pl[i] = append(pl[i], x)
 		}
@@ -71,7 +69,7 @@ func largestComponentSize(a []int) int {
 		meta := gmMap[pl[i][0]].getParent()
 		meta.count += 1
 		for j := 1; j < len(pl[i]); j++ {
-			if meta1 := gmMap[pl[i][j]].getParent(); meta1.id != meta.id {
+			if meta1 := gmMap[pl[i][j]].getParent(); meta1 != meta {
 				if meta.rank > meta1.rank {
 					meta1.parent = meta
 					meta.count += meta1.count
