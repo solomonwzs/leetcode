@@ -12,7 +12,6 @@ static PRIMES: &'static [i32] = &[
 ];
 
 struct CompMeta {
-    pub id: i32,
     pub count: i32,
     pub rank: i32,
     pub parent: Option<Rc<RefCell<CompMeta>>>,
@@ -21,9 +20,8 @@ struct CompMeta {
 struct CompMetaRef(Rc<RefCell<CompMeta>>);
 
 impl CompMetaRef {
-    pub fn new(id: i32) -> CompMetaRef {
+    pub fn new() -> CompMetaRef {
         CompMetaRef(Rc::new(RefCell::new(CompMeta {
-            id: id,
             count: 0,
             rank: 0,
             parent: None,
@@ -57,7 +55,7 @@ impl Solution {
                     if pl[i].len() == 0 || pl[i][pl[i].len() - 1] != PRIMES[j] {
                         if !comps.contains_key(&PRIMES[j]) {
                             comps
-                                .insert(PRIMES[j], CompMetaRef::new(PRIMES[j]));
+                                .insert(PRIMES[j], CompMetaRef::new());
                         }
                         pl[i].push(PRIMES[j]);
                     }
@@ -69,7 +67,7 @@ impl Solution {
 
             if x != 1 {
                 if !comps.contains_key(&x) {
-                    comps.insert(x, CompMetaRef::new(x));
+                    comps.insert(x, CompMetaRef::new());
                 }
                 pl[i].push(x);
             }
@@ -81,13 +79,37 @@ impl Solution {
                 continue;
             }
 
-            if let Some(meta) = comps.get(&pl[i][0]) {
+            if let Some(m) = comps.get(&pl[i][0]) {
+                let mut meta: CompMetaRef = m.get_parent();
                 meta.0.borrow_mut().count += 1;
                 for j in 1..pl[i].len() {
-                    if let Some(meta1) = comps.get(&pl[i][j]) {
-                        if meta1.0.borrow().id != meta.0.borrow().id {
+                    if let Some(mx) = comps.get(&pl[i][j]) {
+                        let metax: CompMetaRef = mx.get_parent();
+                        let mut swap: bool = false;
+                        {
+                            if !Rc::ptr_eq(&meta.0, &metax.0) {
+                                let mut m0 = meta.0.borrow_mut();
+                                let mut m1 = metax.0.borrow_mut();
+                                if m0.rank > m1.rank {
+                                    m1.parent = Some(meta.0.clone());
+                                    m0.count += m1.count;
+                                } else {
+                                    m0.parent = Some(metax.0.clone());
+                                    m1.count += m0.count;
+                                    if m0.rank == m1.rank {
+                                        m1.rank += 1;
+                                    }
+                                    swap = true;
+                                }
+                            }
+                        }
+                        if swap {
+                            meta = CompMetaRef(metax.0.clone());
                         }
                     }
+                }
+                if meta.0.borrow().count > ans {
+                    ans = meta.0.borrow().count;
                 }
             }
         }
@@ -97,8 +119,15 @@ impl Solution {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn it_works() {
-        assert_eq!(2 + 2, 4);
+        assert_eq!(Solution::largest_component_size(vec![4, 6, 15, 35]), 4);
+    }
+
+    #[test]
+    fn it_works1() {
+        assert_eq!(Solution::largest_component_size(vec![20, 50, 9, 63]), 2);
     }
 }
