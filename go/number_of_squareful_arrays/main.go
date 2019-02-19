@@ -19,10 +19,10 @@ func isSquare(a, b int) bool {
 func dfs(side map[int]map[int]bool, numCnt map[int]int,
 	n int, path []int, ans *int) {
 	length := len(path)
-	i := path[length-1]
 	if length == n {
 		*ans += 1
 	} else {
+		i := path[length-1]
 		for j, _ := range side[i] {
 			if numCnt[j] == 0 {
 				continue
