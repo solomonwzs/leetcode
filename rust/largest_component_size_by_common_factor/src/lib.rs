@@ -54,8 +54,7 @@ impl Solution {
                 if x % PRIMES[j] == 0 {
                     if pl[i].len() == 0 || pl[i][pl[i].len() - 1] != PRIMES[j] {
                         if !comps.contains_key(&PRIMES[j]) {
-                            comps
-                                .insert(PRIMES[j], CompMetaRef::new());
+                            comps.insert(PRIMES[j], CompMetaRef::new());
                         }
                         pl[i].push(PRIMES[j]);
                     }
@@ -86,21 +85,19 @@ impl Solution {
                     if let Some(mx) = comps.get(&pl[i][j]) {
                         let metax: CompMetaRef = mx.get_parent();
                         let mut swap: bool = false;
-                        {
-                            if !Rc::ptr_eq(&meta.0, &metax.0) {
-                                let mut m0 = meta.0.borrow_mut();
-                                let mut m1 = metax.0.borrow_mut();
-                                if m0.rank > m1.rank {
-                                    m1.parent = Some(meta.0.clone());
-                                    m0.count += m1.count;
-                                } else {
-                                    m0.parent = Some(metax.0.clone());
-                                    m1.count += m0.count;
-                                    if m0.rank == m1.rank {
-                                        m1.rank += 1;
-                                    }
-                                    swap = true;
+                        if !Rc::ptr_eq(&meta.0, &metax.0) {
+                            let mut m0 = meta.0.borrow_mut();
+                            let mut m1 = metax.0.borrow_mut();
+                            if m0.rank > m1.rank {
+                                m1.parent = Some(meta.0.clone());
+                                m0.count += m1.count;
+                            } else {
+                                m0.parent = Some(metax.0.clone());
+                                m1.count += m0.count;
+                                if m0.rank == m1.rank {
+                                    m1.rank += 1;
                                 }
+                                swap = true;
                             }
                         }
                         if swap {
