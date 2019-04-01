@@ -44,7 +44,7 @@ impl Solution {
         let mut cur: i32 = 0;
         for i in &a {
             ans = cmp::max(ans, cur + *i);
-            cur = cmp::max(cur, *i) -1;
+            cur = cmp::max(cur, *i) - 1;
         }
         ans
     }
