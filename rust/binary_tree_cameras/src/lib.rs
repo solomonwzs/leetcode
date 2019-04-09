@@ -1,27 +1,11 @@
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
+extern crate tree_node;
 
 pub struct Solution {}
 
 use std::cell::RefCell;
 use std::cmp::min;
 use std::rc::Rc;
+use tree_node::TreeNode;
 
 macro_rules! tree_child {
     ($i:ident, $j:ident) => {
@@ -70,31 +54,13 @@ mod tests {
 
     #[test]
     fn it_works0() {
-        let n0 = Rc::new(RefCell::new(TreeNode::new(0)));
-        let n1 = Rc::new(RefCell::new(TreeNode::new(1)));
-        let n2 = Rc::new(RefCell::new(TreeNode::new(2)));
-        let n3 = Rc::new(RefCell::new(TreeNode::new(3)));
-
-        n0.borrow_mut().left = Some(n1.clone());
-        n1.borrow_mut().left = Some(n2.clone());
-        n1.borrow_mut().right = Some(n3.clone());
-
-        assert_eq!(Solution::min_camera_cover(Some(n0)), 1);
+        let root = TreeNode::build_tree("0,0,null,0,0");
+        assert_eq!(Solution::min_camera_cover(root), 1);
     }
 
     #[test]
     fn it_works1() {
-        let n0 = Rc::new(RefCell::new(TreeNode::new(0)));
-        let n1 = Rc::new(RefCell::new(TreeNode::new(1)));
-        let n2 = Rc::new(RefCell::new(TreeNode::new(2)));
-        let n3 = Rc::new(RefCell::new(TreeNode::new(3)));
-        let n4 = Rc::new(RefCell::new(TreeNode::new(4)));
-
-        n0.borrow_mut().left = Some(n1.clone());
-        n1.borrow_mut().left = Some(n2.clone());
-        n2.borrow_mut().left = Some(n3.clone());
-        n3.borrow_mut().left = Some(n4.clone());
-
-        assert_eq!(Solution::min_camera_cover(Some(n0)), 2);
+        let root = TreeNode::build_tree("0,0,null,0,null,0,null,null,0");
+        assert_eq!(Solution::min_camera_cover(root), 2);
     }
 }

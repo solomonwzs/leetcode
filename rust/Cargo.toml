@@ -1,0 +1,19 @@
+[workspace]
+
+members = [
+    "tree_node",
+    "best_sightseeing_pair",
+    "binary_tree_cameras",
+    "distribute_coins_in_binary_tree",
+    "insert_interval",
+    "largest_component_size_by_common_factor",
+    "longest_turbulent_subarray",
+    "next_greater_node_in_linked_list",
+    "number_of_enclaves",
+    "number_of_squareful_arrays",
+    "odd_even_jump",
+    "partition_array_into_three_parts_with_equal_sum",
+    "smallest_integer_divisible_by_k",
+    "tallest_billboard",
+    "triples_with_bitwise_and_equal_to_zero",
+]
