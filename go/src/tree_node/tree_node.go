@@ -18,6 +18,47 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
+func (root *TreeNode) String() string {
+	if root == nil {
+		return ""
+	}
+
+	list := make([]*TreeNode, 1)
+	list[0] = root
+	i := 0
+	for i < len(list) {
+		node := list[i]
+
+		if node != nil && (node.Left != nil || node.Right != nil) {
+			if node.Left != nil {
+				list = append(list, node.Left)
+			} else {
+				list = append(list, nil)
+			}
+			if node.Right != nil {
+				list = append(list, node.Right)
+			} else {
+				list = append(list, nil)
+			}
+		}
+		i += 1
+	}
+
+	vals := make([]string, len(list))
+	for i, n := range list {
+		if n == nil {
+			vals[i] = "null"
+		} else {
+			vals[i] = strconv.Itoa(n.Val)
+		}
+	}
+
+	last := len(list)
+	for ; vals[last-1] == "null"; last-- {
+	}
+	return strings.Join(vals[:last], ",")
+}
+
 func BuildTree(str string) *TreeNode {
 	vals := strings.Split(str, ",")
 	if len(vals) == 0 {
