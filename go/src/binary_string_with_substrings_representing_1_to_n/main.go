@@ -7,44 +7,41 @@
 
 package binary_string_with_substrings_representing_1_to_n
 
-import "fmt"
-
 func queryString(s0 string, n int) bool {
 	s := make([]int, len(s0))
 	for i, c := range s0 {
 		s[i] = int(c - '0')
 	}
 
-	l := 1
-	k := 2
-	for {
+	min := 1
+	max := 1
+	bits := 1
+	for bits <= len(s0) {
 		x := 0
-		for i := 0; i < l; i++ {
+		for i := 0; i < bits; i++ {
 			x = (x << 1) + s[i]
 		}
 
-		max := k - 1
-		min := max >> 1
-		c := map[int]bool{}
-		if x >= min {
-			c[x] = true
+		sets := map[int]bool{}
+		if x >= min && x <= max && x <= n {
+			sets[x] = true
 		}
-		for i := 0; i < len(s)-l; i++ {
-			x = ((x << 1) & max) + s[i+l]
-			if x > min {
-				c[x] = true
+		for i := bits; i < len(s); i++ {
+			x = ((x << 1) & max) + s[i]
+			if x >= min && x <= max && x <= n {
+				sets[x] = true
 			}
 		}
-		fmt.Println(c, min, max)
 
-		if k > n {
-			return len(c) == n-(k<<2)
-		}
-		if len(c) != k {
+		if max >= n {
+			return len(sets) == n-min+1
+		} else if len(sets) != max-min+1 {
 			return false
 		}
 
-		k *= 2
-		l += 1
+		min = min << 1
+		max = max<<1 + 1
+		bits += 1
 	}
+	return false
 }

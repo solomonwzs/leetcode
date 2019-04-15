@@ -8,7 +8,7 @@
 package recover_a_tree_from_preorder_traversal
 
 import (
-	"strconv"
+	"fmt"
 	. "tree_node"
 )
 
@@ -22,35 +22,39 @@ type stackElem struct {
 	tn *TreeNode
 }
 
+func (e stackElem) String() string {
+	return fmt.Sprintf("%+v", e.n)
+}
+
 func recoverFromPreorder(s string) *TreeNode {
 	plist := make([]node, 0)
-	d, j := 0, 0
+	depth, val := 0, 0
 	isDigital := false
-	for i, char := range s {
+	for _, char := range s {
 		if isDigital {
 			if char == '-' {
-				val, _ := strconv.Atoi(s[j:i])
 				plist = append(plist, node{
 					val:   val,
-					depth: d,
+					depth: depth,
 				})
 
 				isDigital = false
-				d = 1
+				depth = 1
+			} else {
+				val = val*10 + int(char-'0')
 			}
 		} else {
 			if char == '-' {
-				d += 1
+				depth += 1
 			} else {
 				isDigital = true
-				j = i
+				val = int(char - '0')
 			}
 		}
 	}
-	val, _ := strconv.Atoi(s[j:])
 	plist = append(plist, node{
 		val:   val,
-		depth: d,
+		depth: depth,
 	})
 
 	root := &TreeNode{
