@@ -13,6 +13,21 @@ pub struct TreeNode {
 
 impl Display for TreeNode {
     fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "{}", self.to_string())
+    }
+}
+
+impl TreeNode {
+    #[inline]
+    pub fn new(val: i32) -> Self {
+        TreeNode {
+            val,
+            left: None,
+            right: None,
+        }
+    }
+
+    pub fn to_string(&self) -> String {
         let root: Option<Rc<RefCell<TreeNode>>> =
             Some(Rc::new(RefCell::new(TreeNode {
                 val: self.val,
@@ -48,34 +63,24 @@ impl Display for TreeNode {
         }
 
         loop {
-            if let Some(_) = &list[i-1] {
+            if let Some(_) = &list[i - 1] {
                 break;
             }
             list.pop();
             i -= 1;
         }
 
+        let mut s: String = String::new();
         for i in 0..list.len() {
             if i != 0 {
-                write!(f, ",")?;
+                s.push_str(",");
             }
             match &list[i] {
-                Some(n) => write!(f, "{}", n.borrow().val)?,
-                None => write!(f, "null")?,
+                Some(n) => s.push_str(n.borrow().val.to_string().as_str()),
+                None => s.push_str("null"),
             }
         }
-        write!(f, "")
-    }
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
+        return s;
     }
 
     pub fn build_tree(s: &str) -> Option<Rc<RefCell<Self>>> {
