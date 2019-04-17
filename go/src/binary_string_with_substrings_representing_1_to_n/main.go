@@ -15,8 +15,7 @@ func queryString(s0 string, n int) bool {
 
 	min := 1
 	max := 1
-	bits := 1
-	for bits <= len(s0) {
+	for bits := 1; bits <= len(s0) && n >= min; bits++ {
 		x := 0
 		for i := 0; i < bits; i++ {
 			x = (x << 1) + s[i]
@@ -41,7 +40,6 @@ func queryString(s0 string, n int) bool {
 
 		min = min << 1
 		max = max<<1 + 1
-		bits += 1
 	}
-	return false
+	return true
 }

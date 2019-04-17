@@ -1,4 +1,7 @@
 use std::cell::RefCell;
+use std::fmt::Display;
+use std::fmt::Formatter;
+use std::fmt::Result;
 use std::rc::Rc;
 
 #[derive(Debug, PartialEq, Eq)]
@@ -6,6 +9,63 @@ pub struct TreeNode {
     pub val: i32,
     pub left: Option<Rc<RefCell<TreeNode>>>,
     pub right: Option<Rc<RefCell<TreeNode>>>,
+}
+
+impl Display for TreeNode {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        let root: Option<Rc<RefCell<TreeNode>>> =
+            Some(Rc::new(RefCell::new(TreeNode {
+                val: self.val,
+                left: match &self.left {
+                    Some(x) => Some(x.clone()),
+                    None => None,
+                },
+                right: match &self.right {
+                    Some(x) => Some(x.clone()),
+                    None => None,
+                },
+            })));
+        let mut list: Vec<Option<Rc<RefCell<TreeNode>>>> = vec![root];
+        let mut i: usize = 0;
+        while i < list.len() {
+            let mut is_none: bool = true;
+            let mut left: Option<Rc<RefCell<TreeNode>>> = None;
+            let mut right: Option<Rc<RefCell<TreeNode>>> = None;
+            if let Some(n) = &list[i] {
+                is_none = false;
+                if let Some(x) = &n.borrow().left {
+                    left = Some(x.clone())
+                }
+                if let Some(x) = &n.borrow().right {
+                    right = Some(x.clone())
+                }
+            }
+            if !is_none {
+                list.push(left);
+                list.push(right);
+            }
+            i += 1;
+        }
+
+        loop {
+            if let Some(_) = &list[i-1] {
+                break;
+            }
+            list.pop();
+            i -= 1;
+        }
+
+        for i in 0..list.len() {
+            if i != 0 {
+                write!(f, ",")?;
+            }
+            match &list[i] {
+                Some(n) => write!(f, "{}", n.borrow().val)?,
+                None => write!(f, "null")?,
+            }
+        }
+        write!(f, "")
+    }
 }
 
 impl TreeNode {
@@ -52,8 +112,13 @@ impl TreeNode {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn it_works() {
-        assert_eq!(2 + 2, 4);
+        let root = TreeNode::build_tree("1,2,null,3,null,4,null,null,5");
+        if let Some(n) = &root {
+            println!("{}", n.as_ref().borrow())
+        }
     }
 }
