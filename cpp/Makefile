@@ -28,12 +28,11 @@ all:./build ./build/libutils.so $(X_FIL)
 
 ./build/%.x: ./build/%.o
 	@echo -e "\033[0;33m*\033[0m $@"
-	@$(CC) $< -o $@ -L./build -lutils -Wl,-R./build
+	@$(CC) $< -o $@ -L./build -lutils
 
 ./build/libutils.so:./build/utils.o
 	@echo -e "\033[0;33m*\033[0m $@"
-	@$(CC) -shared -Wl,-soname,libutils.so \
-		-o ./build/libutils.so ./build/utils.o
+	@$(CC) -shared $< -o $@
 
 ./build:
 	@[ -d $@ ] || mkdir $@

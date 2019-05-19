@@ -5,3 +5,5 @@ build/
 .ropeproject/
 bin/
 pkg/
+*.swp
+compile_commands.json
