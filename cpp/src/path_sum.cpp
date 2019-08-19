@@ -1,7 +1,8 @@
 #include <vector>
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 #define is_leaf(_p) ((_p)->left==NULL && (_p)->right==NULL)

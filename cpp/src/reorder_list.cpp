@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 class Solution{
@@ -38,13 +39,13 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  ListNode *head=NULL;
-  Solution s;
+  // ListNode *head=NULL;
+  // Solution s;
 
-  build_link_list_from_argv(head, argc, argv);
-  s.reorderList(head);
-  print_link_list(head);
-  delete_link_list(head);
+  // build_link_list_from_argv(head, argc, argv);
+  // s.reorderList(head);
+  // print_link_list(head);
+  // delete_link_list(head);
 
   return 0;
 }

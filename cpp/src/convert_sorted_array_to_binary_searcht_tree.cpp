@@ -1,7 +1,8 @@
 #include <vector>
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 class Solution{
@@ -38,8 +39,8 @@ int main(int argc, char **argv){
 
   Solution s;
   TreeNode *root=s.sortedArrayToBST(num);
-  print_tree(root);
-  delete_tree(root);
+  LeetcodeTree t(root);
+  debug_log("[%s]\n", t.to_str().c_str());
 
   return 0;
 }

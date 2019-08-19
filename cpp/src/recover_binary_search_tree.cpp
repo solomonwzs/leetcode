@@ -1,7 +1,8 @@
 #include <vector>
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 #define xor_swap(_a, _b) do{\
@@ -43,21 +44,21 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  vector<TreeNode *> v;
-  new_vector_treenode(v, 7);
+  // vector<TreeNode *> v;
+  // new_vector_treenode(v, 7);
 
-  v[3]->left=v[1];
-  v[3]->right=v[5];
-  v[1]->left=v[6];
-  v[1]->right=v[2];
-  v[5]->left=v[4];
-  v[5]->right=v[0];
+  // v[3]->left=v[1];
+  // v[3]->right=v[5];
+  // v[1]->left=v[6];
+  // v[1]->right=v[2];
+  // v[5]->left=v[4];
+  // v[5]->right=v[0];
 
-  print_tree(v[3]);
-  Solution s;
-  s.recoverTree(v[3]);
-  print_tree(v[3]);
+  // print_tree(v[3]);
+  // Solution s;
+  // s.recoverTree(v[3]);
+  // print_tree(v[3]);
 
-  delete_vectot_obj(v);
+  // delete_vectot_obj(v);
   return 0;
 }

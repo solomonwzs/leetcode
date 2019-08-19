@@ -1,7 +1,9 @@
 #include <vector>
-#include "utils.h"
+#include "leetcode.h"
+#include <iostream>
 
 using namespace std;
+using namespace leetcode;
 
 
 class Solution{
@@ -44,16 +46,13 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  int a[]={3, 2, 4, 1};
-  int b[]={3, 4, 2, 1};
-
-  vector<int> inorder(a, end_of_array(a, int));
-  vector<int> postorder(b, end_of_array(b, int));
+  vector<int> inorder = {3, 2, 4, 1};
+  vector<int> postorder = {3, 4, 2, 1};
 
   Solution s;
   TreeNode *root=s.buildTree(inorder, postorder);
-  print_tree(root);
-  delete_tree(root);
+  LeetcodeTree t(root);
+  debug_log("[%s]\n", t.to_str().c_str());
 
   return 0;
 }

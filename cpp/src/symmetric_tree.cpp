@@ -1,6 +1,7 @@
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 #define same_nonnull_node(_a, _b) ((_a) && (_b) && (_a)->val==(_b)->val)
@@ -51,14 +52,9 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  TreeNode *root;
-  root=build_tree("2,3,3,4,5,5,4,#,#,8,9,9,8");
-  print_tree(root);
-
   Solution s;
-  debug_log("%d\n", s.isSymmetric(root));
-
-  delete_tree(root);
+  LeetcodeTree t("2,3,3,4,5,5,4,null,null,8,9,9,8");
+  debug_log("%d\n", s.isSymmetric(t.root()));
 
   return 0;
 }

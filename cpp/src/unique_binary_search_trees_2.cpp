@@ -1,6 +1,7 @@
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 class Solution{
@@ -75,8 +76,8 @@ int main(int argc, char **argv){
   Solution s;
   vector<TreeNode *> out=s.generateTrees(atoi(argv[1]));
   for (unsigned i=0; i<out.size(); ++i){
-    print_tree(out[i]);
-    delete_tree(out[i]);
+    LeetcodeTree t(out[i]);
+    debug_log("[%s]\n", t.to_str().c_str());
   }
 
   return 0;

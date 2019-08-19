@@ -1,6 +1,7 @@
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 class Solution{
@@ -36,13 +37,13 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  Solution s;
-  TreeNode *tree=build_tree(string(argv[1]));
-  vector<int> out=s.inorderTraversal(tree);
-  for (unsigned i=0; i<out.size(); ++i){
-    debug_log("%d\n", out[i]);
-  }
-  delete_tree(tree);
+  // Solution s;
+  // TreeNode *tree=build_tree(string(argv[1]));
+  // vector<int> out=s.inorderTraversal(tree);
+  // for (unsigned i=0; i<out.size(); ++i){
+  //   debug_log("%d\n", out[i]);
+  // }
+  // delete_tree(tree);
 
   return 0;
 }

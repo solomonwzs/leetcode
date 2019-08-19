@@ -1,6 +1,7 @@
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 #define same_nonnull_node(_a, _b) ((_a) && (_b) && (_a)->val==(_b)->val)
@@ -51,16 +52,16 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  TreeNode *p=build_tree("2,3,3,4,5,5,4,#,#,8,9,9,8");
-  print_tree(p);
-  TreeNode *q=build_tree("2,3,3,4,5,5,4,#,8,9,9,8,#");
-  print_tree(q);
+  // TreeNode *p=build_tree("2,3,3,4,5,5,4,#,#,8,9,9,8");
+  // print_tree(p);
+  // TreeNode *q=build_tree("2,3,3,4,5,5,4,#,8,9,9,8,#");
+  // print_tree(q);
 
-  Solution s;
-  debug_log("%d\n", s.isSameTree(p, q));
+  // Solution s;
+  // debug_log("%d\n", s.isSameTree(p, q));
 
-  delete_tree(p);
-  delete_tree(q);
+  // delete_tree(p);
+  // delete_tree(q);
 
   return 0;
 }

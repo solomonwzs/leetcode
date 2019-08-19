@@ -1,4 +1,6 @@
-#include "utils.h"
+#include "leetcode.h"
+
+using namespace leetcode;
 
 
 struct ListNode *deleteDuplicates(struct ListNode *head){

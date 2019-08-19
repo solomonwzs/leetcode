@@ -1,6 +1,6 @@
 #include <map>
 #include <vector>
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
 
@@ -43,30 +43,30 @@ class Solution {
 
 
 int main(int argc, char **argv){
-  vector<RandomListNode *>v;
-  RandomListNode *head;
-  RandomListNode **c=&head;
-  for (int i=0; i<3; ++i){
-    *c=new RandomListNode(i);
-    v.push_back(*c);
-    c=&(*c)->next;
-  }
-  v[0]->random=v[2];
+  // vector<RandomListNode *>v;
+  // RandomListNode *head;
+  // RandomListNode **c=&head;
+  // for (int i=0; i<3; ++i){
+  //   *c=new RandomListNode(i);
+  //   v.push_back(*c);
+  //   c=&(*c)->next;
+  // }
+  // v[0]->random=v[2];
 
-  Solution s;
-  RandomListNode *copy=s.copyRandomList(head);
-  RandomListNode *p=copy;
-  while (p){
-    printf("%d [", p->label);
-    if (p->random){
-      printf("%d]\n", p->random->label);
-    } else{
-      printf("]\n");
-    }
-    p=p->next;
-  }
+  // Solution s;
+  // RandomListNode *copy=s.copyRandomList(head);
+  // RandomListNode *p=copy;
+  // while (p){
+  //   printf("%d [", p->label);
+  //   if (p->random){
+  //     printf("%d]\n", p->random->label);
+  //   } else{
+  //     printf("]\n");
+  //   }
+  //   p=p->next;
+  // }
 
-  delete_link_list(copy);
-  delete_link_list(head);
+  // delete_link_list(copy);
+  // delete_link_list(head);
   return 0;
 }

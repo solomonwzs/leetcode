@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 class Solution{
@@ -30,16 +31,13 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  TreeNode *root;
-  vector<int> v;
   Solution s;
 
-  root=build_tree(argv[1]);
-  v=s.preorderTraversal(root);
-  for (vector<int>::iterator it=v.begin(); it!=v.end(); ++it){
+  LeetcodeTree t(argv[1]);
+  vector<int>v = s.preorderTraversal(t.root());
+  for (vector<int>::iterator it = v.begin(); it != v.end(); ++it){
     printf("%d\n", *it);
   }
-  delete_tree(root);
 
   return 0;
 }

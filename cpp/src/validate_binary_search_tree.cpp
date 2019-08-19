@@ -1,6 +1,7 @@
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
+using namespace leetcode;
 
 
 class Solution{
@@ -30,20 +31,11 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  vector<TreeNode *> v;
-  new_vector_treenode(v, 7);
-
-  v[3]->left=v[1];
-  v[3]->right=v[5];
-  v[1]->left=v[0];
-  v[1]->right=v[2];
-  v[5]->left=v[4];
-  v[5]->right=v[6];
-
-  print_tree(v[3]);
   Solution s;
-  debug_log("%d\n", s.isValidBST(v[3]));
+  {
+    LeetcodeTree t("5,1,4,null,null,3,6");
+    debug_log("%d\n", s.isValidBST(t.root()));
+  }
 
-  delete_vectot_obj(v);
   return 0;
 }

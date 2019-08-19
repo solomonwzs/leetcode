@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "leetcode.h"
 #include <algorithm>
 
 using namespace std;
@@ -34,8 +34,7 @@ class Solution{
 
 
 int main(int argc, char **argv){
-  int a[]={4, 1, 0};
-  vector<int> S(a, end_of_array(a, int));
+  vector<int> S = {4, 1, 0};
 
   Solution s;
   vector<vector<int> > out=s.subsets(S);

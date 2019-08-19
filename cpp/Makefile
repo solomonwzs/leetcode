@@ -10,14 +10,14 @@ SOURCES	= $(wildcard ./src/*.cpp)
 OBJ	= $(SOURCES:./src/%.cpp=./build/%.o)
 DEP	= $(OBJ:%.o=%.d)
 
-X_OBJ	= $(filter-out ./build/utils.o, $(OBJ))
+X_OBJ	= $(filter-out ./build/leetcode.o, $(OBJ))
 X_FIL	= $(X_OBJ:%.o=%.x)
 
 VALGRIND	= valgrind
 
 
 .PHONY: all
-all:./build ./build/libutils.so $(X_FIL)
+all:./build ./build/libleetcode.so $(X_FIL)
 
 -include $(DEP)
 
@@ -26,13 +26,13 @@ all:./build ./build/libutils.so $(X_FIL)
 	@echo -e "\033[0;33m*\033[0m $@"
 	@$(CC) $(CFLAGS) -MMD $< -o $@
 
-./build/%.x: ./build/%.o
+./build/%.x: ./build/%.o ./build/libleetcode.so
 	@echo -e "\033[0;33m*\033[0m $@"
-	@$(CC) $< -o $@ -L./build -lutils -Wl,-R./build
+	@$(CC) $< -o $@ -L./build -lleetcode -Wl,-R./build
 
-./build/libutils.so:./build/utils.o
+./build/libleetcode.so: ./build/leetcode.o
 	@echo -e "\033[0;33m*\033[0m $@"
-	@$(CC) -shared -Wl,-soname,libutils.so $< -o $@
+	@$(CC) -shared -Wl,-soname,libleetcode.so $< -o $@
 
 ./build:
 	@[ -d $@ ] || mkdir $@

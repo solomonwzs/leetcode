@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "leetcode.h"
 
 using namespace std;
 
@@ -35,8 +35,8 @@ int main(int argc, char **argv){
   Solution s;
   vector<int> out=s.grayCode(atoi(argv[1]));
   debug_log("%zu\n", out.size());
-  for (unsigned i=0; i<out.size(); ++i){
-    print_binary(out[i], atoi(argv[1]));
-  }
+  // for (unsigned i=0; i<out.size(); ++i){
+  //   print_binary(out[i], atoi(argv[1]));
+  // }
   return 0;
 }

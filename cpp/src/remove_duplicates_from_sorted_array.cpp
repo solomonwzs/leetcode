@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "leetcode.h"
 
 
 int removeDuplicates(int a[], int n){

@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "leetcode.h"
 
 
 static int search0(int a[], int left, int right, int target){

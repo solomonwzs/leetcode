@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "leetcode.h"
 
 
 static bool same_element(char *s1, char *s2, int len, bool *math){
