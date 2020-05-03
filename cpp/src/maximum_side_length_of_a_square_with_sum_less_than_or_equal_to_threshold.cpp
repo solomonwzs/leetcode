@@ -6,9 +6,9 @@ using namespace std;
 class Solution {
  public:
   int maxSideLength(vector<vector<int>>& mat, int threshold) {
-    unsigned            m   = mat.size();
-    unsigned            n   = mat[0].size();
-    int                 ans = 0;
+    unsigned m = mat.size();
+    unsigned n = mat[0].size();
+    int ans = 0;
     vector<vector<int>> sum(m, vector<int>(n, 0));
 
     for (unsigned i = 0; i < m; ++i) {
@@ -50,3 +50,7 @@ class Solution {
     return ans;
   }
 };
+
+int main(int argc, char **argv) {
+  return 0;
+}
